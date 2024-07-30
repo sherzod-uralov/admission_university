@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Head from "next/head";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default async function RootLayout({
       <html lang={params.locale}>
         <body className={`${poppins.className} overflow-x-hidden`}>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
+            <SpeedInsights />
             <Navbar />
             {children}
           </NextIntlClientProvider>
