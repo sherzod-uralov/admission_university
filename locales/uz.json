@@ -1,5 +1,149 @@
 {
+  "student": {
+    "student_life": "Talabalar hayoti",
+    "number_5": "5-son",
+    "number_4": "4-son",
+    "number_3": "3-son",
+    "number_2": "2-son",
+    "number_1": "1-son"
+  },
   "Header": {
-    "appTitle": "Next.js Weather"
-  }
+    "slogan": {
+      "nordic":"Nordik - ",
+      "nordic_text": "ta'lim bo'yicha",
+      "nordic_bottom": "mukammallik sari",
+      "button1": "Ariza qoldirish",
+      "button2": "O‘qishni ko‘chirish"
+    },
+    "achieve_goals": "Xalqaro Nordik Universitet bilan maqsadlaringizga <br /> osongina erishing"
+  },
+  "about": {
+    "paragraph1": "Xalqaro Nordik universiteti bu – Shimoliy Yevropa davlatlari, xususan, Finlandiya oliy ta'lim modeli va ilg‘or standartlariga asoslangan ta’lim xizmatlarini ko‘rsatuvchi Markaziy Osiyodagi yagona xususiy universitetdir.",
+    "paragraph2": "Universitet haqli ravishda ta’lim sohasida Finlyandiya – O‘zbekiston hamkorligining ilk tamal toshi, Finlandiya oliy ta’lim tizimining O‘zbekistondagi birinchi ta’lim klasteridir.",
+    "about": "Biz haqimizda"
+  },
+  "why": {
+    "why_nordic": "Nima uchun Nordik Universiteti?",
+    "opportunities": [
+      {
+        "id": 1,
+        "title": "Xalqaro darajali diplom",
+        "description": "Bitiruvchilarimiz O‘zbekiston va Yevropada tan olinadigan diplomga ega bo‘lishadi"
+      },
+      {
+        "id": 2,
+        "title": "Malakali ustozlar",
+        "description": "Talabalarimiz uchun mahalliy va Yevropadan saralangan professor o‘qituvchilar dars o‘tishadi"
+      },
+      {
+        "id": 3,
+        "title": "Grantlar",
+        "description": "Universitet 100 va 50 foizlik grantlar taqdim etadi. Davlat grant kvotalari ham ajratiladi."
+      },
+      {
+        "id": 4,
+        "title": "Chet elda o‘quv dasturlari",
+        "description": "Universitet talabalarga Finlandiyada tashkil etilgan o‘quv dasturlarida ishtirok etish imkoniyatlarini taqdim qiladi"
+      },
+      {
+        "id": 5,
+        "title": "Double degree",
+        "description": "Nordik universitetida Finlandiyaning Kareliya amaliy fanlar universiteti bilan double va joint degree dasturlari bo‘yicha o‘qish imkoniyati bor."
+      },
+      {
+        "id": 6,
+        "title": "Work & Travel",
+        "description": "Nordik universiteti talabalarga yoz oylarida Yevropada ishlab, kontrakt uchun pul topish imkoniyatini ham yaratib beradi."
+      }
+    ]
+  },
+  "partners": {
+    "partner": "Hamkorlar"
+  },
+  "degree":{
+    "bachelor": {
+    "direction": "Yo'nalishlar",
+      "title": "Bakalavr",
+      "total_quota": "Umumiy kvota - {total_quota} ta",
+      "uzbek_quota": "O‘zbek - {uzbek_quota} ta",
+      "russian_quota": "Rus - {russian_quota} ta",
+      "english_quota": "Ingiliz - {english_quota} ta",
+      "full_time": "Kunduzgi",
+      "study_period": "O‘qish muddati - {study_period} yil",
+      "price_full_time": "{price_full_time} mln so‘m",
+      "part_time": "Sirtqi",
+      "study_period_part_time": "O‘qish muddati - {study_period_part_time} yil",
+      "price_part_time": "{price_part_time} mln so‘m",
+      "majors": {
+        "01": "Iqtisodiyot",
+        "02": "Moliya va moliyaviy texnologiyalar",
+        "03": "Jahon iqtisodiyoti va xalqaro iqtisodiy munosabatlar",
+        "04": "Boshlang‘ich ta‘lim",
+        "05": "Maktabgacha ta‘lim",
+        "06": "Maxsus pedagogika",
+        "07": "Psixologiya",
+        "08": "Xorijiy til va adabiyoti",
+        "09": "Kompyuter injiniringi",
+        "10": "Jurnalistika",
+        "11": "Biznesni boshqarish",
+        "12": "Musiqa ta'limi",
+        "13": "Sanoat muhandisligi va menejmenti",
+        "14": "Amaliy matematika",
+        "15": "Turizm va mehmondo’stlik",
+        "16": "Tarix"
+      }
+    },
+    "master": {
+      "title": "Magistr",
+      "majors": {
+        "01": "Pedagogika",
+        "02": "Jurnalistika",
+        "03": "Xorijiy til va adabiyoti",
+        "04": "Ta'lim va tarbiya nazariyasi va metodikasi (Boshlang‘ich ta'lim)",
+        "05": "Ta'lim va tarbiya nazariyasi va metodikasi (Maktabgacha ta'lim)",
+        "06": "Jahon iqtisodiyoti",
+        "07": "Iqtisodiyot",
+        "08": "Turizm va mehmondo’stlik",
+        "09": "Musiqa ta’limi va san’at",
+        "10": "Amaliy matematika",
+        "11": "Kompyuter injeniringi",
+        "12": "Ma’lumotlar ilmi (Data science)"
+      }
+    }
+  },
+  "frequently_asked_questions": "KO'P BERILADIGAN SAVOLLAR",
+  "questions": [
+    {
+      "question": "Universitet diplomi o‘tadimi?",
+      "answer": "Universitet bitiruvchilariga amaldagi namunaviy diplom beriladi, O‘zbekistonda to‘liq amal qiladi. Diplomni nostrifikatsiya qilish talab etilmaydi. Davlat va nodavlat tashkilotlarga ishga kirishga asos boʻla oladi. Shuningdek, ikki davlat – O‘zbekiston va Finlandiyaning xalqaro tan olinadigan qo‘sh diplomini olish imkoniyati mavjud."
+    },
+    {
+      "question": "Universitetning litsenziyasi bormi?",
+      "answer": "Xalqaro Nordik Universiteti 2022-yil 8-avgustda Vazirlar Mahkamasi huzuridagi Ta’lim sifatini nazorat qilish Davlat inspeksiyasining №034528 raqamli litsenziyasi asosida o‘z faoliyatini boshlagan."
+    },
+    {
+      "question": "O‘qishga hujjat topshirishda IELTS yoki boshqa chet tillarini bilish to‘g‘risida Sertifikat kerakmi?",
+      "answer": "Sertifikat bo‘lishi talab qilinmaydi. Agar mavjud bo‘lsa kirish imtihonlarida ustuvorlik beriladi. O‘qish jarayonida til o‘rganish imkoniyati mavjud."
+    },
+    {
+      "question": "Universitet qayerda joylashgan?",
+      "answer": "Manzil: Toshkent shahar, Chilonzor tumani, Bunyodkor ko‘chasi 8/2 uy."
+    },
+    {
+      "question": "Shartnoma qanday olinadi?",
+      "answer": "Universitetning veb-sayti orqali onlayn ro‘yxatdan o‘tilgach, qabul komissiyasi talabaning hujjatlarini tekshirib chiqadi va shartnoma yuboradi."
+    },
+    {
+      "question": "Kontrakt to‘lov summasini qancha muddatda to‘lash kerak?",
+      "answer": "Shartnoma olingach, 15 kun muddat ichida 50 % toʻlov amalga oshirilishi kerak."
+    },
+    {
+      "question": "To‘lov-kontrakt summasini bo‘lib to‘lash mumkinmi?",
+      "answer": "To‘lov-kontrakt summasini o‘quv yili boshida va davomida 2 yoki 4 ga bo‘lib to‘lash mumkin."
+    },
+    {
+      "question": "Talabalar ham o‘qib, ham ishlashi mumkinmi?",
+      "answer": "Talabalarga darsga halal bermagan vaqtlarda ishlash imkoniyati yaratib beriladi."
+    }
+  ]
 }

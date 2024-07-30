@@ -1,5 +1,148 @@
 {
+  "student": {
+    "student_life": "Student life",
+    "number_5": "Number 5",
+    "number_4": "Number 4",
+    "number_3": "Number 3",
+    "number_2": "Number 2",
+    "number_1": "Number 1"
+  },
   "Header": {
-    "appTitle": "تقص نكست چى إس"
-  }
+    "slogan": {
+      "nordic": "Nordik - ",
+      "nordic_text": "Excellence",
+      "nordic_bottom": " in Education",
+      "button1": "Leave an application",
+      "button2": "Move reading"
+    },
+    "achieve_goals": "Achieve your goals with ease at Nordik International University"
+  },
+  "about": {
+    "paragraph1": "Nordic International University is the only private university in Central Asia that carries out its educational activities in cooperation with the Nordic European countries, in particular Finland",
+    "paragraph2": "The University is rightly considered to be the first foundation of educational cooperation between Finland and Uzbekistan, as well as the first educational cluster of Finnish higher education in Uzbekistan.",
+    "about": "About us"
+  },
+  "why": {
+    "why_nordic": "Why Nordic",
+  "opportunities": [
+    {
+      "id": 1,
+      "title": "International Diploma",
+      "description": "Our graduates receive a diploma that is recognized both in Uzbekistan and Europe."
+    },
+    {
+      "id": 2,
+      "title": "Qualified teachers",
+      "description": "Our students benefit from classes taught by a carefully selected faculty, comprising professors from both local institutions and European universities."
+    },
+    {
+      "id": 3,
+      "title": "Scholarships",
+      "description": "The university offers 100% and 50% scholarships, as well as allocations for government-sponsored grants."
+    },
+    {
+      "id": 4,
+      "title": "Study Abroad Programs",
+      "description": "The university provides its students with the opportunity to participate in educational programs organized in Finland."
+    },
+    {
+      "id": 5,
+      "title": "Double Degree",
+      "description": "There is an opportunity to study on double and joint degree programs at Nordic University in cooperation with Karelia University of Applied Sciences in Finland."
+    },
+    {
+      "id": 6,
+      "title": "Work & Travel",
+      "description": "Nordic University offers students the opportunity to work in Europe during the summer, which allows them to earn money to cover the contract."
+    }
+  ]},
+  "partners": {
+    "partner": "Partners"
+  },
+  "degree": {
+    "bachelor": {
+      "direction": "Majors",
+      "title": "Bachelor",
+      "total_quota": "Total quota - {total_quota}",
+      "uzbek_quota": "Uzbek - {uzbek_quota}",
+      "russian_quota": "Russian - {russian_quota}",
+      "english_quota": "English - {english_quota}",
+      "full_time": "Full-time",
+      "study_period": "Study period - {study_period} years",
+      "price_full_time": "{price_full_time} million UZS",
+      "part_time": "Part-time",
+      "study_period_part_time": "Study period - {study_period_part_time} years",
+      "price_part_time": "{price_part_time} million UZS",
+      "majors": {
+        "01": "Economics",
+        "02": "Finance and financial technologies",
+        "03": "World economy and international economic relations",
+        "04": "Primary education",
+        "05": "Preschool education",
+        "06": "Special pedagogy",
+        "07": "Psychology",
+        "08": "Foreign language and literature",
+        "09": "Computer Engineering",
+        "10": "Journalism",
+        "11": "Business Administration",
+        "12": "Music Education",
+        "13": "Industrial Engineering and Management",
+        "14": "Applied Mathematics",
+        "15": "Tourism and Hospitality",
+        "16": "History"
+      }
+    },
+    "master": {
+      "title": "Master",
+      "majors": {
+        "01": "Pedagogy",
+        "02": "Journalism",
+        "03": "Foreign language and literature",
+        "04": "Theory and methodology of teaching and education (elementary education)",
+        "05": "Theory and methodology of teaching and education (preschool education)",
+        "06": "World Economy",
+        "07": "Economics",
+        "08": "Tourism and Hospitality",
+        "09": "Music Education and Arts",
+        "10": "Applied Mathematics",
+        "11": "Computer Engineering",
+        "12": "Data Science"
+      }
+    }
+  },
+  "frequently_asked_questions": "Frequently asked questions",
+  "questions": [
+    {
+      "question": "Is the university diploma recognized?",
+      "answer": "Graduates of the university are awarded a diploma of established format, which is fully valid within the territory of Uzbekistan. No nostrification of the diploma is required. It serves as a basis for employment in both public and private organizations. Additionally, there is an opportunity to obtain an international dual qualification diploma, recognized in both Uzbekistan and Finland."
+    },
+    {
+      "question": "Does the university possess a license?",
+      "answer": "The International Nordic University commenced its activities based on license No. 034528, issued by the State Inspectorate for Quality Control of Education under the Cabinet of Ministers of the Republic of Uzbekistan on August 8, 2022."
+    },
+    {
+      "question": "Is an IELTS certificate or other foreign language proficiency required for admission?",
+      "answer": "The possession of a language certificate is not a mandatory requirement for admission. However, if such a certificate is available, it may provide an advantage during the entrance examinations. The curriculum includes provisions for language study throughout the educational process."
+    },
+    {
+      "question": "Where is the university located?",
+      "answer": "Address: Tashkent city, Chilonzor district, Bunyodkor street, house 8/2."
+    },
+    {
+      "question": "How can one obtain the contract?",
+      "answer": "Following online registration on the university's website, the admissions committee reviews the student's documents and subsequently sends the contract."
+    },
+    {
+      "question": "What is the timeframe for payment of the contract amount?",
+      "answer": "Upon receiving the contract, it is necessary to make a payment of 25% within 25 days."
+    },
+    {
+      "question": "Is it possible to pay the contract amount in installments?",
+      "answer": "The contract amount can be paid at the beginning of the academic year and throughout the year, allowing for division into 2 or 4 payments."
+    },
+    {
+      "question": "Can students combine their studies with work?",
+      "answer": "Students are given the opportunity to work in their free time from classes, without interfering with the educational process."
+    }
+  ]
 }
