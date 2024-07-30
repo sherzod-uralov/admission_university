@@ -4,15 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "paraglide-js compile --project ./project.inlang --outdir ./src\\paraglide && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src\\paraglide"
+    "lint": "next lint"
   },
   "dependencies": {
     "@inlang/paraglide-js-adapter-next": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.6",
+    "@types/antd": "^1.0.0",
     "@types/js-cookie": "^3.0.6",
+    "@types/react-redux": "^7.1.33",
     "antd": "^5.19.4",
     "gsap": "^3.12.5",
     "i18next": "^23.12.2",
@@ -31,7 +32,6 @@
     "swiper": "^11.1.7"
   },
   "devDependencies": {
-    "@inlang/paraglide-js": "1.7.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
