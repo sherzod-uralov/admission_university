@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "../globals.css";
+import "@/app/globals.css";
 import React from "react";
 import { StoreProvider } from "@/lib/provider/storeProvider";
 import Navbar from "@/components/Navbar";
