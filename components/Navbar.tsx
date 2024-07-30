@@ -1,33 +1,42 @@
 "use client";
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/store/store";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
-import hamburger from "@/public/menu.svg";
 import { Select } from "antd";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
-  const isOpen = useSelector((state: RootState) => state.navbar.isOpen);
-  const dispatch = useDispatch();
+  const router = useRouter();
+  const [defaultLang, setDefaultLang] = useState("uz");
+
+  useEffect(() => {
+    const lang = Cookies.get("lang") || "uz";
+    setDefaultLang(lang);
+  }, []);
+
+  const changeLanguage = async (lang: string) => {
+    router.push(`${lang}`);
+    Cookies.set("lang", lang, { expires: 365 });
+  };
 
   return (
-    <nav className="py-4">
+    <nav className="py-6">
       <div className="container">
         <div className="flex items-center justify-between">
-          <Image src={logo} alt="universitet logosi" />
+          <Image src={logo} className="max-sm:h-9" alt="universitet logosi" />
           <div className="flex gap-10">
             <Select
-              className="w-[70px]"
-              defaultValue="uz"
+              className="bg-[#F1F8FF] h-8 focus:outline-none"
+              value={defaultLang}
+              onChange={(e) => changeLanguage(e)}
               options={[
-                { value: "uz", label: "uzb" },
-                { value: "ru", label: "rus" },
-                { value: "en", label: "eng" },
+                { value: "uz", label: "O‘zbek\n" },
+                { value: "ru", label: "Русский\n" },
+                { value: "en", label: "English\n" },
               ]}
             />
-            <Image src={hamburger} alt="" />
           </div>
         </div>
       </div>

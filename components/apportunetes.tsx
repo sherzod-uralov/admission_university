@@ -25,7 +25,7 @@ const Apportunetes = ({
       scrollTrigger: {
         trigger: cardRef.current,
         start: "top 80%",
-        end: "top 50%",
+        end: "top 30%",
         scrub: false,
         toggleActions: "play none none none",
       },
@@ -55,21 +55,25 @@ const Apportunetes = ({
   return (
     <div
       ref={cardRef}
-      className={`p-6 flex-col flex items-${index % 2 === 0 ? "start" : "end mt-36"}`}
+      className={`flex-col flex items-start ${index % 2 !== 0 ? "lg:mt-36" : ""}`}
     >
-      <div className="gap-5 flex items-end">
+      <div className="gap-5 flex items-center">
         <div className="flex items-baseline gap-4">
           <p
             ref={numberRef}
-            className="text-[90px] text-primary leading-[100px] font-[500]"
+            className={`${index === 0 ? "px-2" : ""} text-[90px] max-sm:text-[40px] text-primary leading-[100px] font-[500]`}
           >
             {index + 1}
           </p>
-          <p className="text-heading_color text-[90px]">.</p>
+          <p className="text-heading_color text-[90px] max-sm:text-[40px]">.</p>
         </div>
         <div>
-          <h2 className="text-[32px] text-primary font-[600] mb-2">{title}</h2>
-          <p className="font-[400] text-[20px] ">{description}</p>
+          <h2 className="text-[32px] text-primary font-[600] max-sm:text-[18px] mb-2">
+            {title}
+          </h2>
+          <p className="font-[400] text-[20px] max-sm:text-[12px]">
+            {description}
+          </p>
         </div>
       </div>
     </div>
