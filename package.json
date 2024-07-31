@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@inlang/paraglide-js-adapter-next": "^3.3.0",
+    "@inlang/paraglide-js-adapter-next": "^3.3.0", 
     "@reduxjs/toolkit": "^2.2.6",
     "@types/antd": "^1.0.0",
     "@types/js-cookie": "^3.0.6",

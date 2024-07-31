@@ -58,7 +58,7 @@ const ChildrenComponent = ({
       </div>
       {quota2_info && (
         <div className="flex max-md:flex-col items-center max-md:mt-[24px] max-md:items-start gap-5 w-full">
-          <span className="border-[#D3D3D4] max-md:w-full max-md:h-0 h-[64px] w-0 border-[1px] block" />
+          <span className="border-[#D3D3D4] max-md:w-full max-md:h-0 h-[64px] max-sm:hidden w-0 border-[1px] block" />
           <div>
             <h2 className="font-[500] text-[24px] max-sm:text-[20px] text-[#323335]">
               {price1}

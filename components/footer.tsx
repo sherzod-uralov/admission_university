@@ -8,7 +8,6 @@ import { TiSocialFacebookCircular } from "react-icons/ti";
 import { RiTelegramLine } from "react-icons/ri";
 import { FiYoutube } from "react-icons/fi";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 import { useTranslations } from "next-intl";
 
 const Footer = () => {
@@ -17,7 +16,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary">
       <div className="container">
-        <div className="flex items-start max-sm:flex-col py-[40px] justify-between">
+        <div className="flex items-start max-sm:flex-col pt-[40px] pb-[60px] justify-between">
           <div className="w-full max-sm:flex items-center justify-between">
             <Image src={footer_logo} alt="footer_logo" />
             <div className="flex items-center max-sm:gap-[10px] max-sm:mt-0 mt-[56px] gap-[22px]">
@@ -27,7 +26,7 @@ const Footer = () => {
               <RiTelegramLine className="text-white text-2xl" />
             </div>
             <p className="text-[16px] max-sm:hidden font-[400] text-white pt-[20px]">
-              © 2024 {t("university")}
+              {t("copyright")}
             </p>
           </div>
           <div className="flex gap-[91px] max-sm:gap-[40px] max-md:flex-col max-sm:mt-[40px]">

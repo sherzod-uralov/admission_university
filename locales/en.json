@@ -1,11 +1,11 @@
 {
   "student": {
     "student_life": "Student life",
-    "number_5": "Number 5",
-    "number_4": "Number 4",
-    "number_3": "Number 3",
-    "number_2": "Number 2",
-    "number_1": "Number 1"
+    "number_5": "5st edition",
+    "number_4": "4st edition",
+    "number_3": "3st edition",
+    "number_2": "2st edition",
+    "number_1": "1st edition"
   },
   "Header": {
     "slogan": {
