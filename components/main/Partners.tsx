@@ -32,7 +32,10 @@ const Partners = () => {
   const t = useTranslations("partners");
 
   return (
-    <section className="mt-[100px] max-sm:mt-[60px] overflow-x-hidden mx-auto px-4 py-8">
+    <section
+      id="partners"
+      className="mt-[100px] max-sm:mt-[60px] overflow-x-hidden mx-auto px-4 py-8"
+    >
       <article>
         <h2 className="container font-[500] text-[32px] leading-[48px] text-primary pb-16 max-sm:pb-10">
           {t("partner")}
@@ -41,7 +44,10 @@ const Partners = () => {
           <div className="container">
             <Marquee speed={50} pauseOnHover={true} className="">
               {partners.slice(0, 6).map((partner, index) => (
-                <div className="flex items-center max-sm:w-[150px] h-[150px] w-[305px] justify-center rounded-md">
+                <div
+                  key={index}
+                  className="flex items-center max-sm:w-[150px] h-[150px] w-[305px] justify-center rounded-md"
+                >
                   <Image
                     src={partner}
                     width={191}
@@ -54,7 +60,10 @@ const Partners = () => {
             </Marquee>
             <Marquee direction="right" speed={50} pauseOnHover={true}>
               {partners.slice(6, 12).map((partner, index) => (
-                <div className="flex  items-center h-[150px] max-sm:w-[150px] w-[305px] justify-center rounded-md">
+                <div
+                  key={index}
+                  className="flex  items-center h-[150px] max-sm:w-[150px] w-[305px] justify-center rounded-md"
+                >
                   <Image
                     src={partner}
                     width={191}

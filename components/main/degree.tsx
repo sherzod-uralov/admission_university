@@ -996,7 +996,7 @@ const Degree = () => {
   ];
 
   return (
-    <section className="container mt-20 max-sm:mt-0">
+    <section id="program" className="container mt-20 max-sm:mt-0">
       <article>
         <h2 className="text-primary font-[500] text-[32px] leading-[48px]">
           {t("bachelor.direction")}

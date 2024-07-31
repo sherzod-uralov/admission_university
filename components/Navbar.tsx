@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
 import { Select } from "antd";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 
 const Navbar = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [defaultLang, setDefaultLang] = useState("uz");
 
   useEffect(() => {
@@ -16,8 +17,18 @@ const Navbar = () => {
     setDefaultLang(lang);
   }, []);
 
+  useEffect(() => {
+    const pathSegments = pathname.split("/");
+    const langInPath = pathSegments[1];
+
+    if (["uz", "ru", "en"].includes(langInPath)) {
+      setDefaultLang(langInPath);
+      Cookies.set("lang", langInPath, { expires: 365 });
+    }
+  }, [pathname]);
+
   const changeLanguage = async (lang: string) => {
-    router.push(`${lang}`);
+    router.push(`/${lang}`);
     Cookies.set("lang", lang, { expires: 365 });
   };
 
@@ -32,9 +43,9 @@ const Navbar = () => {
               value={defaultLang}
               onChange={(e) => changeLanguage(e)}
               options={[
-                { value: "uz", label: "O‘zbek\n" },
-                { value: "ru", label: "Русский\n" },
-                { value: "en", label: "English\n" },
+                { value: "uz", label: "O‘zbek" },
+                { value: "ru", label: "Русский" },
+                { value: "en", label: "English" },
               ]}
             />
           </div>

@@ -7,9 +7,9 @@ import { Autoplay, EffectCards, Mousewheel } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
-import image_one from "@/public/9.jpg";
-import image_two from "@/public/8.jpg";
-import image_three from "@/public/10 (2).jpg";
+import image_one from "@/public/Rectangle 31.png";
+import image_two from "@/public/Rectangle 30.png";
+import image_three from "@/public/Rectangle 29.png";
 import { useTranslations } from "next-intl";
 
 const Hero = () => {

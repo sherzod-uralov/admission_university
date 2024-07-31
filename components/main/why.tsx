@@ -11,7 +11,10 @@ const Why = () => {
   const t = useTranslations("why");
 
   return (
-    <section className="relative bg-primary_bg overflow-y-hidden overflow-x-hidden pb-[80px] w-full">
+    <section
+      id="why"
+      className="relative bg-primary_bg overflow-y-hidden overflow-x-hidden pb-[80px] w-full"
+    >
       <Image
         className="absolute -top-[120px] right-0"
         src={image_right}

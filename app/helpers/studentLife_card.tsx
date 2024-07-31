@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import { CaretUpOutlined } from "@ant-design/icons";
-import Link from "next/link";
 
 interface student {
   image: any;
@@ -12,7 +11,7 @@ interface student {
 
 const StudentLifeCard = ({ image, title, direction, pdfLink }: student) => {
   return (
-    <Link
+    <a
       target="_blank"
       href={pdfLink}
       className={`flex gap-2 ${direction === "right" ? "flex-col-reverse" : "flex-col"}`}
@@ -30,7 +29,7 @@ const StudentLifeCard = ({ image, title, direction, pdfLink }: student) => {
           className={`text-primary ml-[20px] ${direction === "right" ? "rotate-180" : "rotate-0"}`}
         />
       </div>
-    </Link>
+    </a>
   );
 };
 

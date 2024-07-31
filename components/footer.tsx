@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <footer className="bg-primary">
       <div className="container">
-        <div className="flex items-start max-sm:flex-col pt-[40px] pb-[60px] justify-between">
+        <div className="flex items-start max-sm:flex-col pt-[40px] pb-[40px] max-sm:pb-[60px] justify-between">
           <div className="w-full max-sm:flex items-center justify-between">
             <Image src={footer_logo} alt="footer_logo" />
             <div className="flex items-center max-sm:gap-[10px] max-sm:mt-0 mt-[56px] gap-[22px]">
@@ -32,23 +32,38 @@ const Footer = () => {
           <div className="flex gap-[91px] max-sm:gap-[40px] max-md:flex-col max-sm:mt-[40px]">
             <div className="flex items-start max-sm:justify-between max-sm:gap-0 gap-[110px]">
               <ul className="flex flex-col gap-4  text-white">
-                <li className="font-[400] text-nowrap text-[16px]">
+                <Link
+                  href={"#about"}
+                  className="font-[400] text-nowrap text-[16px]"
+                >
                   {t("about_us")}
-                </li>
-                <li className="font-[400] text-nowrap text-[16px]">
+                </Link>
+                <Link
+                  href={"#program"}
+                  className="font-[400] text-nowrap text-[16px]"
+                >
                   {t("our_programs")}
-                </li>
-                <li className="font-[400] text-nowrap text-[16px]">
+                </Link>
+                <Link
+                  href={"#partners"}
+                  className="font-[400] text-nowrap text-[16px]"
+                >
                   {t("our_partners")}
-                </li>
+                </Link>
               </ul>
               <ul className="flex flex-col gap-4 text-white">
-                <li className="font-[400] text-nowrap text-[16px]">
+                <Link
+                  href={"#why"}
+                  className="font-[400] text-nowrap text-[16px]"
+                >
                   {t("why_us")}
-                </li>
-                <li className="font-[400] text-nowrap text-[16px]">
+                </Link>
+                <Link
+                  href={"#life"}
+                  className="font-[400] text-nowrap text-[16px]"
+                >
                   {t("student_life")}
-                </li>
+                </Link>
               </ul>
             </div>
             <div>

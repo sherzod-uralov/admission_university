@@ -72,7 +72,10 @@ const StudentLife = () => {
   }, []);
 
   return (
-    <section className="container mt-20 mb-40 max-sm:mt-10 max-sm:mb-20">
+    <section
+      id="life"
+      className="container mt-20 mb-40 max-sm:mt-10 max-sm:mb-20"
+    >
       <h2 className="font-[500] text-[32px] text-primary pb-[60px]">
         {t("student_life")}
       </h2>
@@ -83,7 +86,7 @@ const StudentLife = () => {
               image={student_life1}
               title={t("number_1")}
               direction="left"
-              pdfLink={"/pdfs/birinchi son.pdf"}
+              pdfLink={"https://sertificate.nordicuniversity.org/assets/1.pdf"}
             />
           </div>
           <div className="student-life-card student-life-card-2">
@@ -91,7 +94,7 @@ const StudentLife = () => {
               image={student_life2}
               title={t("number_2")}
               direction="right"
-              pdfLink={"/pdfs/ikkinchi son.pdf"}
+              pdfLink={"https://sertificate.nordicuniversity.org/assets/2.pdf"}
             />
           </div>
           <div className="student-life-card student-life-card-3">
@@ -99,7 +102,7 @@ const StudentLife = () => {
               image={student_life3}
               title={t("number_3")}
               direction="left"
-              pdfLink={"/pdfs/uchinchi son.pdf"}
+              pdfLink={"https://sertificate.nordicuniversity.org/assets/3.pdf"}
             />
           </div>
           <div className="student-life-card student-life-card-4">
@@ -107,7 +110,7 @@ const StudentLife = () => {
               image={student_life4}
               title={t("number_4")}
               direction="right"
-              pdfLink={"/pdfs/to'rtinchi son.pdf"}
+              pdfLink={"https://sertificate.nordicuniversity.org/assets/4.pdf"}
             />
           </div>
           <div className="student-life-card student-life-card-5">
@@ -115,7 +118,7 @@ const StudentLife = () => {
               image={student_life5}
               title={t("number_5")}
               direction="left"
-              pdfLink={"/pdfs/beshinchi son.pdf"}
+              pdfLink={"https://sertificate.nordicuniversity.org/assets/5.pdf"}
             />
           </div>
         </div>

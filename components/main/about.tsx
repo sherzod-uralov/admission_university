@@ -7,7 +7,7 @@ const About = () => {
   const t = useTranslations("about");
 
   return (
-    <section className="container text- mt-[150px] mb-20">
+    <section id="about" className="container text- mt-[150px] mb-20">
       <div className="flex gap-15 items-center">
         <Image
           src={about}
