@@ -145,5 +145,17 @@
       "question": "Talabalar ham o‘qib, ham ishlashi mumkinmi?",
       "answer": "Talabalarga darsga halal bermagan vaqtlarda ishlash imkoniyati yaratib beriladi."
     }
-  ]
+  ],
+  "footer": {
+    "copyright": "© 2024 Nordik Universiteti",
+    "about_us": "Biz haqimizda",
+    "our_programs": "Yo‘nalishlar",
+    "our_partners": "Hamkorlarimiz",
+    "why_us": "Nima uchun biz?",
+    "student_life": "Talabalar hayoti",
+    "contact": "Aloqa",
+    "address": "Toshkent shahar, Chilonzor tumani, Bunyodkor ko‘chasi, 8/2",
+    "email": "info@nordicuniversity.org",
+    "phone": "+99895 505 33 00"
+  }
 }

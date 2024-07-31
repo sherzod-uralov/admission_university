@@ -47,10 +47,22 @@ const Hero = () => {
             className="text-paragraph_color font-[400] text-[18px] max-sm:text-[16px] pt-2.5 leading-[32px]"
           ></p>
           <div className="flex items-center gap-8 max-sm:gap-5 max-sm:flex-col max-sm:items-start text-[20px] mt-14">
-            <button className="bg-primary cursor-pointer max-sm:px-7 max-sm:py-2 text-white hover:bg-transparent py-[15px] rounded-[6px] px-10">
+            <button
+              onClick={() =>
+                (window.location.href =
+                  "https://admission.nordicuniversity.org/")
+              }
+              className="bg-primary z-10 cursor-pointer max-sm:px-7 max-sm:py-2 text-white py-[15px] rounded-[6px] px-10"
+            >
               {t("slogan.button1")}
             </button>
-            <button className="text-primary py-3 max-sm:px-5 max-sm:py-[6px] border-primary rounded-[6px] border-[2.5px] shadow-none px-10">
+            <button
+              onClick={() =>
+                (window.location.href =
+                  "https://transfer.nordicuniversity.org/")
+              }
+              className="text-primary cursor-pointer z-10 py-3 max-sm:px-5 max-sm:py-[6px] border-primary rounded-[6px] border-[2.5px] shadow-none px-10"
+            >
               {t("slogan.button2")}
             </button>
           </div>

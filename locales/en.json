@@ -144,5 +144,17 @@
       "question": "Can students combine their studies with work?",
       "answer": "Students are given the opportunity to work in their free time from classes, without interfering with the educational process."
     }
-  ]
+  ],
+  "footer": {
+    "copyright": "© 2024 Nordic University",
+    "about_us": "About us",
+    "our_programs": "Our Programs",
+    "our_partners": "Our Partners",
+    "why_us": "Why us?",
+    "student_life": "Student Life",
+    "contact": "Contact",
+    "address": "Tashkent city, Shaikhontohur district, Sebzor street, 22-a",
+    "email": "info@nordicuniversity.org",
+    "phone": "+99895 505 33 00"
+  }
 }

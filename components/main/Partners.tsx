@@ -54,7 +54,7 @@ const Partners = () => {
             </Marquee>
             <Marquee direction="right" speed={50} pauseOnHover={true}>
               {partners.slice(6, 12).map((partner, index) => (
-                <div className="flex  items-center h-[150px] max-sm:w-[150px] justify-center rounded-md">
+                <div className="flex  items-center h-[150px] max-sm:w-[150px] w-[305px] justify-center rounded-md">
                   <Image
                     src={partner}
                     width={191}

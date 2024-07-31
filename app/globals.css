@@ -3,14 +3,17 @@
 @tailwind utilities;
 
 
+html {
+    scroll-behavior: smooth;
+}
+
+
 .container{
     width: 1440px;
     max-width: 100%;
     margin: 0 auto;
     padding: 0 15px;
 }
-
-
 
 .custom-collapse .ant-collapse-header {
     display: flex;

@@ -13,13 +13,6 @@ const poppins = Poppins({
   weight: "400",
 });
 
-export async function generateStaticParams() {
-  const locales = ["uz", "en", "ru"];
-  return locales.map((locale) => ({
-    locale: locale,
-  }));
-}
-
 export default async function RootLayout({
   children,
   params,
@@ -30,13 +23,15 @@ export default async function RootLayout({
   const messages = await getMessages();
   return (
     <StoreProvider>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
       <html lang={params.locale}>
+        <Head>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
+          <link rel="icon" ref="/favicon.ico" />
+          <title>admission</title>
+        </Head>
         <body className={`${poppins.className} overflow-x-hidden`}>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
             <SpeedInsights />
