@@ -17,7 +17,7 @@ const nextConfig = {
         ];
     },
     images: {
-        domains: ['wow.nordicuniversity.org', 'sertificate.nordicuniversity.org'],
+        domains: ['sertificate.nordicuniversity.org'],
     },
 };
 

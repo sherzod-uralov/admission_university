@@ -87,9 +87,9 @@ const Footer = () => {
               </Link>
               <Link
                 className="block pt-2.5 text-white"
-                href={"tel:+99895 505 33 00"}
+                href={"tel:+998555084400"}
               >
-                +99895 505 33 00
+                +99855 508 44 00
               </Link>
               <p className="text-[16px] max-sm:block hidden font-[400] text-white pt-[60px]">
                 {t("copyright")}

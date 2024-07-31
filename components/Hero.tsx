@@ -7,9 +7,6 @@ import { Autoplay, EffectCards, Mousewheel } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-cards";
-import image_one from "@/public/Rectangle 31.png";
-import image_two from "@/public/Rectangle 30.png";
-import image_three from "@/public/Rectangle 29.png";
 import { useTranslations } from "next-intl";
 
 const Hero = () => {
@@ -82,21 +79,27 @@ const Hero = () => {
           >
             <SwiperSlide>
               <Image
-                src={image_one}
+                width={500}
+                height={500}
+                src={"https://sertificate.nordicuniversity.org/assets/8.JPG"}
                 alt="image-1"
                 className="w-auto object-cover rounded-[10px] h-full"
               />
             </SwiperSlide>
             <SwiperSlide>
               <Image
-                src={image_two}
+                src={"https://sertificate.nordicuniversity.org/assets/9.JPG"}
                 alt="image-1"
+                width={500}
+                height={500}
                 className="w-auto object-cover rounded-[10px] h-full"
               />
             </SwiperSlide>
             <SwiperSlide>
               <Image
-                src={image_three}
+                width={500}
+                height={500}
+                src={"https://sertificate.nordicuniversity.org/assets/10.JPG"}
                 alt="image-1"
                 className="w-auto object-cover rounded-[10px] h-full"
               />

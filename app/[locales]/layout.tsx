@@ -5,13 +5,22 @@ import "@/app/globals.css";
 import { StoreProvider } from "@/lib/provider/storeProvider";
 import { Poppins } from "next/font/google";
 import React from "react";
-import Head from "next/head";
+import { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: "400",
 });
+
+export const metadata: Metadata = {
+  title: "Nordik qabul",
+  viewport:
+    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
 
 export default async function RootLayout({
   children,
@@ -24,14 +33,6 @@ export default async function RootLayout({
   return (
     <StoreProvider>
       <html lang={params.locale}>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-          />
-          <link rel="icon" ref="/favicon.ico" />
-          <title>admission</title>
-        </Head>
         <body className={`${poppins.className} overflow-x-hidden`}>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
             <SpeedInsights />
