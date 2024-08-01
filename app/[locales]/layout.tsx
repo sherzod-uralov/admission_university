@@ -15,8 +15,6 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Nordik qabul",
-  viewport:
-    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
   icons: {
     icon: "/favicon.ico",
   },

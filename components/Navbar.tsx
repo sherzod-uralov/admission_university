@@ -3,14 +3,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import logo from "@/public/logo.svg";
-import { Select } from "antd";
 import { useRouter, usePathname } from "next/navigation";
 import Cookies from "js-cookie";
-import { ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined, DownOutlined } from "@ant-design/icons";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { IoIosArrowDown } from "react-icons/io";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const languages = [
+  { value: "uz", label: "O‘zbek" },
+  { value: "ru", label: "Русский" },
+  { value: "en", label: "English" },
+];
 
 const Navbar = () => {
   const router = useRouter();
@@ -18,6 +24,8 @@ const Navbar = () => {
   const [defaultLang, setDefaultLang] = useState("uz");
   const navRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLButtonElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const lang = Cookies.get("lang") || "uz";
@@ -62,7 +70,7 @@ const Navbar = () => {
               gsap.to(nav, {
                 zIndex: 1000,
                 backgroundColor: "#fff",
-                borderBottom: "1px solid #3D9386",
+                borderBottom: "1.5px solid #dcdada",
                 position: "fixed",
                 top: 0,
                 transition: 0.1,
@@ -83,6 +91,22 @@ const Navbar = () => {
     );
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [selectRef]);
+
   return (
     <nav ref={navRef} className="navbar py-5">
       <div className="container">
@@ -100,16 +124,36 @@ const Navbar = () => {
             >
               <ArrowDownOutlined />
             </button>
-            <Select
-              className="bg-[#F1F8FF] h-8 focus:outline-none"
-              value={defaultLang}
-              onChange={(e) => changeLanguage(e)}
-              options={[
-                { value: "uz", label: "O‘zbek" },
-                { value: "ru", label: "Русский" },
-                { value: "en", label: "English" },
-              ]}
-            />
+            <div className="relative" ref={selectRef}>
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="bg-[#F1F8FF] h-10 w-40 px-4 py-2 text-sm rounded-md border border-gray-300 focus:outline-none focus:border-[#3D9386] transition duration-300 ease-in-out transform hover:scale-105 flex justify-between items-center"
+              >
+                {languages.find((lang) => lang.value === defaultLang)?.label}
+                <IoIosArrowDown />
+              </button>
+              {isOpen && (
+                <div className="absolute mt-1 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                  <div
+                    className="py-1"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="options-menu"
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.value}
+                        onClick={() => changeLanguage(lang.value)}
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                        role="menuitem"
+                      >
+                        {lang.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

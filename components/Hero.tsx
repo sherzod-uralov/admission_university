@@ -49,7 +49,7 @@ const Hero = () => {
                 (window.location.href =
                   "https://admission.nordicuniversity.org/")
               }
-              className="bg-primary z-10 cursor-pointer max-sm:px-7 max-sm:py-2 text-white py-[15px] rounded-[6px] px-10"
+              className="bg-primary z-10 cursor-pointer max-sm:px-7 max-sm:py-2 text-white py-[15px] rounded-[6px] px-10 transition duration-300 ease-in-out transform hover:bg-primary hover:scale-105 hover:shadow-2xl hover:text-white"
             >
               {t("slogan.button1")}
             </button>
@@ -58,7 +58,7 @@ const Hero = () => {
                 (window.location.href =
                   "https://transfer.nordicuniversity.org/")
               }
-              className="text-primary cursor-pointer z-10 py-3 max-sm:px-5 max-sm:py-[6px] border-primary rounded-[6px] border-[2.5px] shadow-none px-10"
+              className="text-primary cursor-pointer z-10 py-3 max-sm:px-5 max-sm:py-[6px] border-primary rounded-[6px] border-[2.5px] shadow-none px-10 transition duration-300 ease-in-out transform hover:bg-gray-100 hover:scale-105 hover:shadow-2xl"
             >
               {t("slogan.button2")}
             </button>

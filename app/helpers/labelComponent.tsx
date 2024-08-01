@@ -27,7 +27,9 @@ const LabelComponent: React.FC<LabelComponentProps> = ({
         // className={`text-gray-400 font-[500] text-[16px] transition-[0.2s] ${isActive ? "opacity-1" : "opacity-0"}`}
         className={`text-gray-400 font-[500] text-[16px] transition-[0.2s]`}
       >
-        <strong className="max-sm:text-black">{code}</strong>
+        <strong className={`${isActive ? "text-black" : "text-[#A0A3A9]"}`}>
+          {code}
+        </strong>
       </span>
     </span>
   );
