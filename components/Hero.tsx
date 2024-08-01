@@ -26,7 +26,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <header className="container mt-20">
+    <header className="container mt-36">
       <div className="flex items-center max-xl:justify-center max-xl:flex-col justify-between">
         <Image
           className="absolute max-sm:h-96 max-sm:-left-10 left-0 top-[113px]"

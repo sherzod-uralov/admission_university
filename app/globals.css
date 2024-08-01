@@ -8,6 +8,24 @@ html {
 }
 
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background: #3D9386;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(61, 147, 134, 0.8);
+}
+
 .container{
     width: 1440px;
     max-width: 100%;
@@ -36,7 +54,7 @@ html {
 }
 
 .custom-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #3D9386;
+    color: rgba(61, 147, 134, 0.42);
 }
 
 .custom-tabs .ant-tabs-ink-bar {
