@@ -20,10 +20,28 @@ const Footer = () => {
           <div className="w-full max-sm:flex items-center justify-between">
             <Image src={footer_logo} alt="footer_logo" />
             <div className="flex items-center max-sm:gap-[10px] max-sm:mt-0 mt-[56px] gap-[22px]">
-              <FiYoutube className="text-white text-2xl" />
-              <FaInstagram className="text-white text-2xl" />
-              <TiSocialFacebookCircular className="text-white text-3xl" />
-              <RiTelegramLine className="text-white text-2xl" />
+              <a
+                href={"https://www.youtube.com/@nordic_university"}
+                target="_blank"
+              >
+                <FiYoutube className="text-white text-2xl" />
+              </a>
+              <a href={"https://www.instagram.com/nordic_edu/"} target="_blank">
+                <FaInstagram className="text-white text-2xl" />
+              </a>
+
+              <a
+                href={
+                  "https://www.facebook.com/nordicuniversity.edu/?ref=pages_you_manage"
+                }
+                target="_blank"
+              >
+                <TiSocialFacebookCircular className="text-white text-3xl" />
+              </a>
+
+              <a href={"https://t.me/nordic_edu"} target="_blank">
+                <RiTelegramLine className="text-white text-2xl" />
+              </a>
             </div>
             <p className="text-[16px] max-sm:hidden font-[400] text-white pt-[20px]">
               {t("copyright")}

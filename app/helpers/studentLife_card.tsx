@@ -16,7 +16,7 @@ const StudentLifeCard = ({ image, title, direction, pdfLink }: student) => {
       href={pdfLink}
       className={`flex gap-2 ${direction === "right" ? "flex-col-reverse" : "flex-col"}`}
     >
-      <div className="flex justify-start flex-col gap-[10px]">
+      <div className="flex justify-start flex-col gap-[10px] transition duration-300 ease-in-out hover:scale-110">
         <Image src={image} alt={title} />
       </div>
       <div

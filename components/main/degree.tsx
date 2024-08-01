@@ -1002,14 +1002,6 @@ const Degree = () => {
           {t("bachelor.direction")}
         </h2>
         <div className="mt-[60px] gap-[80px] flex items-start w-full">
-          {/*<div className="flex-shrink-0">*/}
-          {/*  <Image*/}
-          {/*    width={550}*/}
-          {/*    className="rounded-md h-[700px]"*/}
-          {/*    src={image}*/}
-          {/*    alt="image degree"*/}
-          {/*  />*/}
-          {/*</div>*/}
           <div className="w-full">
             <Tabs
               defaultActiveKey="1"

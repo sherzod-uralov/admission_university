@@ -81,7 +81,7 @@ const StudentLife = () => {
       </h2>
       <article>
         <div className="grid grid-cols-5 max-xl:grid-cols-3 gap-y-10 gap-x-7 max-sm:justify-center max-lg:grid-cols-2">
-          <div className="student-life-card student-life-card-1">
+          <div className="student-life-card student-life-card-1  ">
             <StudentLifeCard
               image={student_life1}
               title={t("number_1")}
