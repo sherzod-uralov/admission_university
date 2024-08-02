@@ -1,7 +1,7 @@
 import React from "react";
 interface quoteInfo {
   total_quota: string;
-  uzbek_quota: string;
+  uzbek_quota?: string;
   russian_quota?: string;
   english_quota?: string;
 }

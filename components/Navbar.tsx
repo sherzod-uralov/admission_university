@@ -5,7 +5,6 @@ import Image from "next/image";
 import logo from "@/public/logo.svg";
 import { useRouter, usePathname } from "next/navigation";
 import Cookies from "js-cookie";
-import { ArrowDownOutlined, DownOutlined } from "@ant-design/icons";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { IoIosArrowDown } from "react-icons/io";
@@ -108,7 +107,7 @@ const Navbar = () => {
   }, [selectRef]);
 
   return (
-    <nav ref={navRef} className="navbar py-5">
+    <nav className="navbar py-5">
       <div className="container">
         <div className="flex items-center justify-between">
           <Image
@@ -116,24 +115,17 @@ const Navbar = () => {
             className="fill-white text-white  max-sm:h-9"
             alt="universitet logosi"
           />
-          <div className="flex gap-10 items-center">
-            <button
-              ref={iconRef}
-              onClick={() => window.scroll({ top: 0, behavior: "auto" })}
-              className="arrow-icon rotate-180 transition-all duration-500"
-            >
-              <ArrowDownOutlined />
-            </button>
+          <div className="flex gap-10 max-sm:gap-5 items-center">
             <div className="relative" ref={selectRef}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="bg-[#F1F8FF] h-10 w-40 px-4 py-2 text-sm rounded-md border border-gray-300 focus:outline-none focus:border-[#3D9386] transition duration-300 ease-in-out transform hover:scale-105 flex justify-between items-center"
+                className="bg-[#F1F8FF] h-10 w-28 px-4 py-2 text-sm rounded-md border border-gray-300 focus:outline-none focus:border-[#3D9386] transition duration-300 ease-in-out transform hover:scale-105 flex justify-between items-center"
               >
                 {languages.find((lang) => lang.value === defaultLang)?.label}
                 <IoIosArrowDown />
               </button>
               {isOpen && (
-                <div className="absolute mt-1 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="absolute z-[2000] mt-1 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                   <div
                     className="py-1"
                     role="menu"

@@ -12,8 +12,8 @@
       "nordic": "Nordik - ",
       "nordic_text": "Excellence",
       "nordic_bottom": " in Education",
-      "button1": "Leave an application",
-      "button2": "Move reading"
+      "button1": "Apply Now",
+      "button2": "Transfer Now"
     },
     "achieve_goals": "Achieve your goals with ease at Nordik International University"
   },
@@ -62,6 +62,7 @@
   "degree": {
     "bachelor": {
       "direction": "Majors",
+      "special": "Special external",
       "title": "Bachelor",
       "total_quota": "Total quota - {total_quota}",
       "uzbek_quota": "Uzbek - {uzbek_quota}",
