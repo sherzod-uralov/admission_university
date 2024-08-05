@@ -23,7 +23,7 @@ export default function Home({ params }: { params: string }) {
         <Partners />
         <StudentLife />
         <Faq />
-        <Footer />
+
         <button
           onClick={() =>
             (window.location.href = "https://admission.nordicuniversity.org/")

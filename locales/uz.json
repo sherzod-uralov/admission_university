@@ -15,7 +15,7 @@
       "button1": "Ariza qoldirish",
       "button2": "O‘qishni ko‘chirish"
     },
-    "achieve_goals": "Xalqaro Nordik Universitet bilan maqsadlaringizga <br /> osongina erishing"
+    "achieve_goals": "Xalqaro Nordik Universiteti bilan maqsadlaringizga <br /> osongina erishing"
   },
   "about": {
     "paragraph1": "Xalqaro Nordik universiteti bu – Shimoliy Yevropa davlatlari, xususan, Finlandiya oliy ta'lim modeli va ilg‘or standartlariga asoslangan ta’lim xizmatlarini ko‘rsatuvchi Markaziy Osiyodagi yagona xususiy universitetdir.",
@@ -38,7 +38,7 @@
       {
         "id": 3,
         "title": "Grantlar",
-        "description": "Universitet 100 va 50 foizlik grantlar taqdim etadi. Davlat grant kvotalari ham ajratiladi."
+        "description": "Universitet 100 va 50 foizlik grantlar taqdim etadi."
       },
       {
         "id": 4,

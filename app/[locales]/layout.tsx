@@ -7,6 +7,7 @@ import { Poppins } from "next/font/google";
 import React from "react";
 import { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Footer from "@/components/footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default async function RootLayout({
             <SpeedInsights />
             <Navbar />
             {children}
+            <Footer />
           </NextIntlClientProvider>
         </body>
       </html>

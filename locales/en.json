@@ -1,10 +1,10 @@
 {
   "student": {
     "student_life": "Student life",
-    "number_5": "5st edition",
-    "number_4": "4st edition",
-    "number_3": "3st edition",
-    "number_2": "2st edition",
+    "number_5": "5th edition",
+    "number_4": "4th edition",
+    "number_3": "3rd edition",
+    "number_2": "2nd edition",
     "number_1": "1st edition"
   },
   "Header": {
@@ -38,7 +38,7 @@
     {
       "id": 3,
       "title": "Scholarships",
-      "description": "The university offers 100% and 50% scholarships, as well as allocations for government-sponsored grants."
+      "description": "The university offers 100% and 50% scholarships."
     },
     {
       "id": 4,
@@ -114,7 +114,7 @@
   "questions": [
     {
       "question": "Is the university diploma recognized?",
-      "answer": "Graduates of the university are awarded a diploma of established format, which is fully valid within the territory of Uzbekistan. No nostrification of the diploma is required. It serves as a basis for employment in both public and private organizations. Additionally, there is an opportunity to obtain an international dual qualification diploma, recognized in both Uzbekistan and Finland."
+      "answer": "Graduates of the university are awarded a diploma of established format, which is fully valid within the territory of Uzbekistan. No nostrification of the diploma is required. It serves as a basis for employment in both public and private organizations. Additionally, there is an opportunity to obtain an international  double degree, recognized in both Uzbekistan and Finland."
     },
     {
       "question": "Does the university possess a license?",
