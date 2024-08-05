@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import about from "@/public/about.png";
+import about from "@/public/Universitet.jpg";
 import { useTranslations } from "next-intl";
 
 const About = () => {
@@ -11,7 +11,7 @@ const About = () => {
       <div className="flex gap-15 items-center">
         <Image
           src={about}
-          className="block h-[350px] max-xl:hidden"
+          className="block h-[350px] rounded-md w-[400px] object-cover max-xl:hidden"
           alt="about image"
         />
         <div className="ml-10 max-xl:ml-0">

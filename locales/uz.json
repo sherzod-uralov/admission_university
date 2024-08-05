@@ -64,6 +64,7 @@
     "bachelor": {
     "direction": "Yo'nalishlar",
       "title": "Bakalavr",
+      "special": "Maxsus sirtqi",
       "total_quota": "Umumiy kvota - {total_quota} ta",
       "uzbek_quota": "O‘zbek - {uzbek_quota} ta",
       "russian_quota": "Rus - {russian_quota} ta",

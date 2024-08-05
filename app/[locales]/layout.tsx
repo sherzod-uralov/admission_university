@@ -7,7 +7,11 @@ import { Poppins } from "next/font/google";
 import React from "react";
 import { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
 import Footer from "@/components/footer";
+
+import ogImage from "@/public/Rectangle 31.png";
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -16,11 +20,36 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Nordik qabul",
-  viewport:
-    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
   icons: {
     icon: "/favicon.ico",
   },
+  openGraph: {
+    title: "Nordik qabul",
+    description: "Nordik universiteti qabul sahifasi.",
+    images: [
+      {
+        url: `${ogImage}`,
+        width: 800,
+        height: 600,
+        alt: "Nordik universiteti",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nordik qabul",
+    description: "Nordik universiteti qabul jarayoni haqida ma'lumotlar.",
+    images: [
+      {
+        url: `${ogImage}`,
+        width: 800,
+        height: 600,
+        alt: "Nordik universiteti",
+      },
+    ],
+  },
+  description: "Nordik universiteti qabul jarayoni haqida ma'lumotlar.",
 };
 
 export default async function RootLayout({
@@ -34,6 +63,12 @@ export default async function RootLayout({
   return (
     <StoreProvider>
       <html lang={params.locale}>
+        <head>
+          <meta
+            property="og:url"
+            content={`https://qabul.nordicuniversity.org/${params.locale}`}
+          />
+        </head>
         <body className={`${poppins.className} overflow-x-hidden`}>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
             <SpeedInsights />

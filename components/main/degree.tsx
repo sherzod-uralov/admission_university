@@ -143,9 +143,12 @@ const Degree = () => {
           day={t("bachelor.full_time")}
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.part_time")}
+          day1={t("bachelor.special")}
           period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
+          price1={t("bachelor.price_part_time", { price_part_time: 11 })}
+          quota2_info={{
+            total_quota: t("bachelor.total_quota", { total_quota: 100 }),
+          }}
         />
       ),
       extra: (
@@ -175,9 +178,12 @@ const Degree = () => {
           day={t("bachelor.full_time")}
           period={t("bachelor.study_period", { study_period: 3 })}
           price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.part_time")}
+          day1={t("bachelor.special")}
           period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
+          price1={t("bachelor.price_part_time", { price_part_time: 11 })}
+          quota2_info={{
+            total_quota: t("bachelor.total_quota", { total_quota: 100 }),
+          }}
         />
       ),
       extra: (
@@ -418,9 +424,12 @@ const Degree = () => {
           day={t("bachelor.full_time")}
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
+          day1={t("bachelor.special")}
+          period1={t("bachelor.study_period", { study_period: 4 })}
+          price1={t("bachelor.price_part_time", { price_part_time: 14 })}
+          quota2_info={{
+            total_quota: t("bachelor.total_quota", { total_quota: 100 }),
+          }}
         />
       ),
       extra: (
@@ -543,7 +552,7 @@ const Degree = () => {
           quota_info={{
             total_quota: t("bachelor.total_quota", { total_quota: 40 }),
             uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 30 }),
+            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
           }}
           day={t("bachelor.full_time")}
           period={t("bachelor.study_period", { study_period: 4 })}

@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@inlang/paraglide-js-adapter-next": "^3.3.0",
+    "@react-three/drei": "^9.109.2",
+    "@react-three/fiber": "^8.16.8",
     "@reduxjs/toolkit": "^2.2.6",
     "@types/antd": "^1.0.0",
     "@types/js-cookie": "^3.0.6",
@@ -25,13 +27,16 @@
     "next-intl": "^3.17.2",
     "prettier": "^3.3.3",
     "react": "^18",
+    "react-awesome-shapes": "^0.1.12",
     "react-dom": "^18",
     "react-fast-marquee": "^1.6.5",
     "react-i18next": "^15.0.0",
     "react-icons": "^5.2.1",
     "react-redux": "^9.1.2",
     "react-scroll": "^1.9.0",
-    "swiper": "^11.1.7"
+    "remove": "^0.1.5",
+    "swiper": "^11.1.7",
+    "three": "^0.167.1"
   },
   "devDependencies": {
     "@types/node": "^20",
