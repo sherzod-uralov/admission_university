@@ -7,15 +7,10 @@ import Degree from "@/components/main/degree";
 import Partners from "@/components/main/Partners";
 import StudentLife from "@/components/main/StudentLife";
 import Faq from "@/components/main/Faq";
-import Footer from "@/components/footer";
 import React from "react";
 import { useTranslations } from "next-intl";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store/store";
 
 export default function Home({ params }: { params: string }) {
-  const store = useSelector((state: RootState) => state);
-
   const t = useTranslations("Header");
   return (
     <>

@@ -44,24 +44,20 @@ const Hero = () => {
             className="text-paragraph_color font-[400] text-[18px] max-sm:text-[16px] pt-2.5 leading-[32px]"
           ></p>
           <div className="flex items-center gap-8 max-sm:gap-5 max-sm:flex-col max-sm:items-start text-[20px] mt-14">
-            <button
-              onClick={() =>
-                (window.location.href =
-                  "https://admission.nordicuniversity.org/")
-              }
+            <a
+              href="https://admission.nordicuniversity.org/"
+              target="_blank"
               className="bg-primary z-10 cursor-pointer max-sm:px-7 max-sm:py-2 text-white py-[15px] rounded-[6px] px-10 transition duration-300 ease-in-out transform hover:bg-primary hover:scale-105 hover:shadow-2xl hover:text-white"
             >
               {t("slogan.button1")}
-            </button>
-            <button
-              onClick={() =>
-                (window.location.href =
-                  "https://transfer.nordicuniversity.org/")
-              }
+            </a>
+            <a
+              href="https://transfer.nordicuniversity.org"
+              target="_blank"
               className="text-primary cursor-pointer z-10 py-3 max-sm:px-5 max-sm:py-[6px] border-primary rounded-[6px] border-[2.5px] shadow-none px-10 transition duration-300 ease-in-out transform hover:bg-gray-100 hover:scale-105 hover:shadow-2xl"
             >
               {t("slogan.button2")}
-            </button>
+            </a>
           </div>
         </div>
         <div className="w-[522px] max-sm:w-[335px] max-sm:h-[257px] max-xl:pt-20 h-[400px]">
