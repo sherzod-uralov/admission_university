@@ -9,13 +9,13 @@
   },
   "Header": {
     "slogan": {
-      "nordic": "Nordik - ",
+      "nordic": "Nordic - ",
       "nordic_text": "Excellence",
       "nordic_bottom": " in Education",
       "button1": "Apply Now",
       "button2": "Transfer Now"
     },
-    "achieve_goals": "Achieve your goals with ease at Nordik International University"
+    "achieve_goals": "Achieve your goals with ease at Nordic International University"
   },
   "about": {
     "paragraph1": "Nordic International University is the only private university in Central Asia that carries out its educational activities in cooperation with the Nordic European countries, in particular Finland",
@@ -64,6 +64,7 @@
       "direction": "Majors",
       "special": "Special external",
       "title": "Bachelor",
+      "grand": "Grant-funded",
       "total_quota": "Total quota - {total_quota}",
       "uzbek_quota": "Uzbek - {uzbek_quota}",
       "russian_quota": "Russian - {russian_quota}",
@@ -115,7 +116,7 @@
   "questions": [
     {
       "question": "Is the university diploma recognized?",
-      "answer": "Graduates of the university are awarded a diploma of established format, which is fully valid within the territory of Uzbekistan. No nostrification of the diploma is required. It serves as a basis for employment in both public and private organizations. Additionally, there is an opportunity to obtain an international  double degree, recognized in both Uzbekistan and Finland."
+      "answer": "Graduates of the university are awarded a diploma of established format, which is fully valid within the territory of Uzbekistan. No nostrification of the diploma is required. It serves as a basis for employment in both public and private organizations. Additionally, there is an opportunity to obtain an international  double degree qualification diploma, recognized in both Uzbekistan and Finland."
     },
     {
       "question": "Does the university possess a license?",

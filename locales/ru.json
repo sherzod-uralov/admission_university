@@ -64,6 +64,7 @@
     "bachelor": {
     "direction": "Направления",
       "special": "Специальное заочное",
+      "grand": "На основе гранта",
       "title": "Бакалавр",
       "total_quota": "Общий квота - {total_quota}",
       "uzbek_quota": "Узбекский - {uzbek_quota}",
