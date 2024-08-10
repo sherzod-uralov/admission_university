@@ -7,11 +7,7 @@ import { Poppins } from "next/font/google";
 import React from "react";
 import { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
 import Footer from "@/components/footer";
-
-import ogImage from "@/public/Rectangle 31.png";
-
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -19,7 +15,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Nordik qabul",
+  metadataBase: new URL("https://qabul.nordicuniversity.org"),
   icons: {
     icon: "/favicon.ico",
   },
@@ -28,7 +24,7 @@ export const metadata: Metadata = {
     description: "Nordik universiteti qabul sahifasi.",
     images: [
       {
-        url: `${ogImage}`,
+        url: "/Rectangle 31.png",
         width: 800,
         height: 600,
         alt: "Nordik universiteti",
@@ -42,7 +38,7 @@ export const metadata: Metadata = {
     description: "Nordik universiteti qabul jarayoni haqida ma'lumotlar.",
     images: [
       {
-        url: `${ogImage}`,
+        url: "/Rectangle 31.png",
         width: 800,
         height: 600,
         alt: "Nordik universiteti",
@@ -64,10 +60,37 @@ export default async function RootLayout({
     <StoreProvider>
       <html lang={params.locale}>
         <head>
+          <title>Nordik qabul</title>
           <meta
             property="og:url"
             content={`https://qabul.nordicuniversity.org/${params.locale}`}
           />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window, document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '741300534414372');
+                fbq('track', 'PageView');
+              `,
+            }}
+          />
+          <noscript>
+            <img
+              alt="facebook"
+              height="1"
+              width="1"
+              style={{ display: "none" }}
+              src="https://www.facebook.com/tr?id=741300534414372&ev=PageView&noscript=1"
+            />
+          </noscript>
+          {/* End Meta Pixel Code */}
         </head>
         <body className={`${poppins.className} overflow-x-hidden`}>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
