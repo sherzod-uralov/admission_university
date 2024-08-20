@@ -158,5 +158,19 @@
     "address": "Tashkent city, Shaikhontohur district, Sebzor street, 22-a",
     "email": "info@nordicuniversity.org",
     "phone": "+99895 505 33 00"
+  },
+  "contact": {
+    "contact_information": "Contact Information",
+    "contact_use": "Get in Touch",
+    "phone_number": "+1012 3456 789",
+    "email": "demo@gmail.com",
+    "address": "132 Dartmouth Street, Boston, Massachusetts 02156, USA",
+    "contact_us": "Contact Us",
+    "send_message": "Send Message",
+    "a": 2
+  },
+  "litsenziya":{
+    "text":"The International Nordic University commences its activities based on license No. 034528 issued by the State Inspectorate for Quality Control in Education under the Cabinet of Ministers!\n\nThe establishment of the university will make a significant contribution to the training of highly qualified specialists, based on advanced practices, innovative educational models, curricula, and programs implemented in prestigious higher education institutions of Northern Europe, taking into account the needs of the real sector of the economy.\n\n\uD83D\uDCCB For reference: Karelia UAS is a multidisciplinary international and innovative higher education institution, founded in 1992 and located in the municipality of Joensuu, Finland. The university has over 5000 students studying across 22 programs (including 5 master's programs) in 7 educational fields. Karelia UAS actively collaborates with local and international educational institutions from Asia, Africa, Europe, and America.",
+    "Litsenziya": "License"
   }
 }

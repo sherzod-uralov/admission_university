@@ -14,7 +14,7 @@ const Footer = () => {
   const t = useTranslations("footer");
 
   return (
-    <footer className="bg-primary">
+    <footer className="bg-primary mt-10">
       <div className="container">
         <div className="flex items-start max-sm:flex-col pt-[40px] pb-[40px] max-sm:pb-[60px] justify-between">
           <div className="w-full max-sm:flex items-center justify-between">

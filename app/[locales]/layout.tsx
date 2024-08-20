@@ -90,11 +90,9 @@ export default async function RootLayout({
               src="https://www.facebook.com/tr?id=741300534414372&ev=PageView&noscript=1"
             />
           </noscript>
-          {/* End Meta Pixel Code */}
         </head>
         <body className={`${poppins.className} overflow-x-hidden`}>
           <NextIntlClientProvider locale={params.locale} messages={messages}>
-            <SpeedInsights />
             <Navbar />
             {children}
             <Footer />

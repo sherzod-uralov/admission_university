@@ -159,5 +159,19 @@
     "address": "Toshkent shahar, Chilonzor tumani, Bunyodkor ko‘chasi, 8/2",
     "email": "info@nordicuniversity.org",
     "phone": "+99895 505 33 00"
+  },
+  "contact": {
+    "contact_information": "Biz bilan bo'g'lanish",
+    "contact_use": "Bog'lanish tafsilotlari",
+    "phone_number": "+1012 3456 789",
+    "email": "demo@gmail.com",
+    "address": "132 Dartmouth ko'chasi, Boston, Massachusetts 02156, AQSh",
+    "contact_us": "Biz bilan bog'laning",
+    "send_message": "Xabar yuborish",
+    "a": 2
+  },
+  "litsenziya":{
+    "text": "Xalqaro Nordik Universiteti Vazirlar Mahkamasi huzuridagi Ta’lim sifatini nazorat qilish Davlat inspeksiyasining №034528 raqamli litsenziyasi asosida o‘z faoliyatini boshlaydi!\n\nUniversitetining tashkil etilishi Shimoliy Yevropa mamlakatlarining nufuzli oliy ta’lim muassasalarida yo‘lga qo‘yilgan ilg‘or tajribalar, innovatsion ta’lim modellari, o‘quv reja va dasturlari asosida iqtisodiyotning real sektor ehtiyojlarini hisobga olgan holda yuqori malakali mutaxassislarni tayyorlashga katta hissa qo‘shadi.\n\n\uD83D\uDCCB Ma’lumot uchun: Kareliya UAS ko‘p tarmoqli xalqaro va innovatsion oliy ta’lim muassasasi 1992-yilda tashkil topgan bo‘lib, Finlyandiyaning Joensuu munisipalitetida joylashgan. Universitetda 7 ta ta’lim yo‘nalishida 22 ta dastur bo‘yicha (shundan 5 tasi magistratura) 5000 dan ortiq talabalar ta'lim oladi. Kareliya UAS mahalliy va xalqaro (Osiyo, Afrika, Yevropa va Amerika davlatlari) ta’lim muassasalari bilan faol hamkorlik qilib kelmoqda.",
+    "Litsenziya": "Litsenziya"
   }
 }

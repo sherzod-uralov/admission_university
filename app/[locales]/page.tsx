@@ -9,6 +9,8 @@ import StudentLife from "@/components/main/StudentLife";
 import Faq from "@/components/main/Faq";
 import React from "react";
 import { useTranslations } from "next-intl";
+import Contact from "@/components/main/Contact";
+import Litsenziya from "@/components/main/Litsenziya";
 
 export default function Home({ params }: { params: string }) {
   const t = useTranslations("Header");
@@ -21,8 +23,9 @@ export default function Home({ params }: { params: string }) {
         <Degree />
         <Partners />
         <StudentLife />
+        <Litsenziya />
         <Faq />
-
+        <Contact />
         <button
           onClick={() =>
             (window.location.href = "https://admission.nordicuniversity.org/")
