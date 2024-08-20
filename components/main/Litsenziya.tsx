@@ -14,7 +14,7 @@ const About = () => {
       </h2>
       <div className="flex gap-12 items-start max-lg:flex-col-reverse">
         <div>
-          <p className="font-[400] text-[24px] max-sm:text-[16px]  leading-[32px] text-paragraph_color">
+          <p className="font-[400] indent-10 text-justify text-[24px] max-sm:text-[16px]  leading-[32px] text-paragraph_color">
             {t("text")}
           </p>
         </div>
