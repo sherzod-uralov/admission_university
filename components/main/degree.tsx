@@ -38,7 +38,7 @@ const Degree = () => {
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 18 })}
           day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
+          period1={t("bachelor.study_period", { study_period: 5 })}
           price1={t("bachelor.price_part_time", { price_part_time: 12 })}
           quota2_info={{
             total_quota: t("bachelor.total_quota", { total_quota: 75 }),
@@ -75,7 +75,7 @@ const Degree = () => {
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 18 })}
           day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
+          period1={t("bachelor.study_period", { study_period: 5 })}
           price1={t("bachelor.price_part_time", { price_part_time: 12 })}
           quota2_info={{
             total_quota: t("bachelor.total_quota", { total_quota: 50 }),
@@ -144,7 +144,7 @@ const Degree = () => {
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 14 })}
           day1={t("bachelor.special")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
+          period1={t("bachelor.study_period", { study_period: 5 })}
           price1={t("bachelor.price_part_time", { price_part_time: 11 })}
           quota2_info={{
             total_quota: t("bachelor.total_quota", { total_quota: 100 }),
@@ -248,7 +248,7 @@ const Degree = () => {
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 17 })}
           day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
+          period1={t("bachelor.study_period", { study_period: 5 })}
           price1={t("bachelor.price_part_time", { price_part_time: 11 })}
           quota2_info={{
             total_quota: t("bachelor.total_quota", { total_quota: 75 }),
@@ -319,7 +319,7 @@ const Degree = () => {
           period={t("bachelor.study_period", { study_period: 4 })}
           price={t("bachelor.price_part_time", { price_part_time: 22 })}
           day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
+          period1={t("bachelor.study_period", { study_period: 5 })}
           price1={t("bachelor.price_part_time", { price_part_time: 12 })}
           quota2_info={{
             total_quota: t("bachelor.total_quota", { total_quota: 50 }),
@@ -885,10 +885,6 @@ const Degree = () => {
           day1={t("bachelor.part_time")}
           period1={t("bachelor.study_period", { study_period: 5 })}
           price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 50 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 50 }),
-          }}
         />
       ),
       extra: (
