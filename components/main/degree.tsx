@@ -1,1022 +1,190 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
-import image from "@/public/Universitet.jpg";
-import { Collapse, Tabs, TabsProps } from "antd";
+import { Tabs, Collapse, Spin, Alert } from "antd";
+import { useTranslations } from "next-intl";
+import {
+  EnumEduDegree,
+  EnumEduType,
+  TabItem,
+  IFields, // yangi tip
+} from "@/types/degree.types";
 import LabelComponent from "@/app/helpers/labelComponent";
 import ChildrenComponent from "@/app/helpers/childrenComponent";
-import { useTranslations } from "next-intl";
+import { useEducationDirections } from "@/components/hooks/useDegree.hook";
 
-const Degree = () => {
-  const [activeKey, setActiveKey] = useState<string | string[]>("1");
+/* ---------- LOCAL HELPERS ---------- */
+const translateEduType = (
+  t: ReturnType<typeof useTranslations>,
+  type: EnumEduType,
+) => {
+  switch (type) {
+    case EnumEduType.FULL_TIME:
+      return t("bachelor.full_time");
+    case EnumEduType.PART_TIME:
+      return t("bachelor.part_time");
+    case EnumEduType.SPECIAL_PART_TIME:
+      return t("bachelor.special");
+    case EnumEduType.EVENING:
+      return t("bachelor.evening");
+    case EnumEduType.DISTANCE:
+      return t("bachelor.distance");
+    default:
+      return type;
+  }
+};
+
+const formatPrice = (p: number) => (p / 1_000_000).toString();
+
+/* ---------- MAIN COMPONENT ---------- */
+interface Props {
+  language?: string;
+}
+
+const DynamicDegree: React.FC<Props> = ({ language = "uz" }) => {
   const t = useTranslations("degree");
 
-  const handleCollapseChange = (key: string | string[]) => {
-    setActiveKey(key);
-  };
+  const [degree, setDegree] = useState<EnumEduDegree>(EnumEduDegree.BACHELOR);
 
-  const bakalavr = [
-    {
-      key: "1",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.01")}
-          isActive={activeKey[0] === "1"}
-          itemKey="1"
-          code={"60310100"}
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 40 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 18 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 75 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 50 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 25 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          01
-        </span>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.02")}
-          isActive={activeKey[0] === "2"}
-          itemKey="2"
-          code="60410400"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 18 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 50 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 50 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          02
-        </span>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.03")}
-          isActive={activeKey[0] === "3"}
-          itemKey="3"
-          code="60411900"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 40 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 18 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          03
-        </span>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.04")}
-          isActive={activeKey[0] === "4"}
-          itemKey="4"
-          code="60110500"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.special")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 11 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 100 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          04
-        </span>
-      ),
-    },
-    {
-      key: "5",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.05")}
-          isActive={activeKey[0] === "5"}
-          itemKey="5"
-          code="60110200"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 3 })}
-          price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.special")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 11 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 100 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          05
-        </span>
-      ),
-    },
-    {
-      key: "6",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.06")}
-          isActive={activeKey[0] === "6"}
-          itemKey="6"
-          code="60112700"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 40 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          06
-        </span>
-      ),
-    },
-    {
-      key: "7",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.07")}
-          isActive={activeKey[0] === "7"}
-          itemKey="7"
-          code="60310900"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 40 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 17 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 11 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 75 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 50 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 25 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          07
-        </span>
-      ),
-    },
-    {
-      key: "8",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.08")}
-          isActive={activeKey[0] === "8"}
-          itemKey="8"
-          code="60111800"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 40 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 18 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          08
-        </span>
-      ),
-    },
-    {
-      key: "9",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.09")}
-          isActive={activeKey[0] === "9"}
-          itemKey="9"
-          code="60610500"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 50 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            english_quota: t("bachelor.english_quota", { english_quota: 30 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 22 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 50 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 50 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          09
-        </span>
-      ),
-    },
-    {
-      key: "10",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.10")}
-          isActive={activeKey[0] === "10"}
-          itemKey="10"
-          code="60320100"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 60 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 60 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.grand")}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.grand")}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 60 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 60 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          10
-        </span>
-      ),
-    },
-    {
-      key: "11",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.11")}
-          isActive={activeKey[0] === "11"}
-          itemKey="10"
-          code="60411300"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 30 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 0 }),
-            english_quota: t("bachelor.english_quota", { english_quota: 30 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 22 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          11
-        </span>
-      ),
-    },
-    {
-      key: "12",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.12")}
-          isActive={activeKey[0] === "12"}
-          itemKey="12"
-          code="60111300"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 14 })}
-          day1={t("bachelor.special")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 14 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 100 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          12
-        </span>
-      ),
-    },
-    {
-      key: "13",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.13")}
-          isActive={activeKey[0] === "13"}
-          itemKey="13"
-          code="60411200"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 30 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 0 }),
-            english_quota: t("bachelor.english_quota", { english_quota: 30 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 22 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          13
-        </span>
-      ),
-    },
-    {
-      key: "14",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.14")}
-          isActive={activeKey[0] === "14"}
-          itemKey="14"
-          code="60540200"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 16 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          14
-        </span>
-      ),
-    },
-    {
-      key: "15",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.15")}
-          isActive={activeKey[0] === "15"}
-          itemKey="15"
-          code="61010100"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 17 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          15
-        </span>
-      ),
-    },
-    {
-      key: "16",
-      label: (
-        <LabelComponent
-          title={t("bachelor.majors.16")}
-          isActive={activeKey[0] === "16"}
-          itemKey="16"
-          code="60220300"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 40 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-            russian_quota: t("bachelor.russian_quota", { russian_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 4 })}
-          price={t("bachelor.price_part_time", { price_part_time: 16 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-          quota2_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 50 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 50 }),
-          }}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          16
-        </span>
-      ),
-    },
-  ];
-  const master = [
-    {
-      key: "1",
-      label: (
-        <LabelComponent
-          title={t("master.majors.01")}
-          isActive={activeKey[0] === "1"}
-          itemKey="1"
-          code={"70110102"}
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          01
-        </span>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <LabelComponent
-          title={t("master.majors.02")}
-          isActive={activeKey[0] === "2"}
-          itemKey="2"
-          code="70320101"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 30 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 30 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.grand")}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          02
-        </span>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <LabelComponent
-          title={t("master.majors.03")}
-          isActive={activeKey[0] === "3"}
-          itemKey="3"
-          code="70110901"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 22 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          03
-        </span>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <LabelComponent
-          title={t("master.majors.04")}
-          isActive={activeKey[0] === "4"}
-          itemKey="4"
-          code="70110501"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 18 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          04
-        </span>
-      ),
-    },
-    {
-      key: "5",
-      label: (
-        <LabelComponent
-          title={t("master.majors.05")}
-          isActive={activeKey[0] === "5"}
-          itemKey="5"
-          code="70110201"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 18 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          05
-        </span>
-      ),
-    },
-    {
-      key: "6",
-      label: (
-        <LabelComponent
-          title={t("master.majors.06")}
-          isActive={activeKey[0] === "6"}
-          itemKey="6"
-          code="70411901"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 22 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          06
-        </span>
-      ),
-    },
-    {
-      key: "7",
-      label: (
-        <LabelComponent
-          title={t("master.majors.07")}
-          isActive={activeKey[0] === "7"}
-          itemKey="7"
-          code="70310102"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 11 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          07
-        </span>
-      ),
-    },
-    {
-      key: "8",
-      label: (
-        <LabelComponent
-          title={t("master.majors.08")}
-          isActive={activeKey[0] === "8"}
-          itemKey="8"
-          code="71010101"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          08
-        </span>
-      ),
-    },
-    {
-      key: "9",
-      label: (
-        <LabelComponent
-          title={t("master.majors.09")}
-          isActive={activeKey[0] === "9"}
-          itemKey="9"
-          code="70110601"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 4 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 12 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          09
-        </span>
-      ),
-    },
-    {
-      key: "10",
-      label: (
-        <LabelComponent
-          title={t("master.majors.10")}
-          isActive={activeKey[0] === "10"}
-          itemKey="10"
-          code="70540201"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          10
-        </span>
-      ),
-    },
-    {
-      key: "11",
-      label: (
-        <LabelComponent
-          title={t("master.majors.11")}
-          isActive={activeKey[0] === "11"}
-          itemKey="10"
-          code="70610301"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          11
-        </span>
-      ),
-    },
-    {
-      key: "12",
-      label: (
-        <LabelComponent
-          title={t("master.majors.12")}
-          isActive={activeKey[0] === "12"}
-          itemKey="12"
-          code="70610304"
-        />
-      ),
-      children: (
-        <ChildrenComponent
-          quota_info={{
-            total_quota: t("bachelor.total_quota", { total_quota: 20 }),
-            uzbek_quota: t("bachelor.uzbek_quota", { uzbek_quota: 20 }),
-          }}
-          day={t("bachelor.full_time")}
-          period={t("bachelor.study_period", { study_period: 2 })}
-          price={t("bachelor.price_part_time", { price_part_time: 20 })}
-          day1={t("bachelor.part_time")}
-          period1={t("bachelor.study_period", { study_period: 5 })}
-          price1={t("bachelor.price_part_time", { price_part_time: 16 })}
-        />
-      ),
-      extra: (
-        <span
-          className={`font-bold text-[20px] extra-left float-left text-primary`}
-        >
-          12
-        </span>
-      ),
-    },
-  ];
+  const {
+    loading,
+    tabLoading,
+    error,
+    availableTabs,
+    activeTab,
+    currentTabData,
+    changeTab,
+  } = useEducationDirections({ eduDegree: degree, language });
 
-  const items: TabsProps["items"] = [
-    {
-      key: "1",
-      label: t("bachelor.title"),
-      children: (
-        <Collapse
-          activeKey={activeKey}
-          onChange={handleCollapseChange}
-          accordion
-          rootClassName="border-x-0 bg-transparent rounded-none"
-          items={bakalavr.map((item, index) => ({
-            ...item,
-          }))}
-          expandIcon={() => null}
-          className="custom-collapse"
-        />
-      ),
-    },
-    {
-      key: "2",
-      label: t("master.title"),
-      children: (
-        <Collapse
-          activeKey={activeKey}
-          onChange={handleCollapseChange}
-          accordion
-          rootClassName="border-x-0 bg-transparent rounded-none"
-          items={master.map((item, index) => ({
-            ...item,
-          }))}
-          expandIcon={() => null}
-          className="custom-collapse"
-        />
-      ),
-    },
-  ];
+  /* ------ Loading / Error ------ */
+  if (loading)
+    return (
+      <section className="text-center py-20">
+        <Spin size="large" />
+        <div className="mt-3 text-lg">Ma'lumotlar yuklanmoqda…</div>
+      </section>
+    );
 
+  if (error)
+    return (
+      <Alert
+        message="Xatolik"
+        description={error}
+        type="error"
+        showIcon
+        className="my-8"
+      />
+    );
+
+  /* ------ Collapse creator ------ */
+  const buildCollapseItems = (currentTabData as IFields[]).map((prog, idx) => {
+    // Quota obyektini dinamik tarjima qilish
+    const quotaInfo: Record<string, string> = {};
+    if (prog?.quota) {
+      const { total, uz, ru, en } = prog?.quota;
+      if (total)
+        quotaInfo.total_quota = t("bachelor.total_quota", {
+          total_quota: total,
+        });
+      if (uz)
+        quotaInfo.uzbek_quota = t("bachelor.uzbek_quota", { uzbek_quota: uz });
+      if (ru)
+        quotaInfo.russian_quota = t("bachelor.russian_quota", {
+          russian_quota: ru,
+        });
+      if (en)
+        quotaInfo.english_quota = t("bachelor.english_quota", {
+          english_quota: en,
+        });
+    }
+
+    return {
+      key: String(idx),
+      label: (
+        <LabelComponent
+          title={prog.name_uz || prog.name_ru || prog.name_en || prog.name}
+          itemKey={String(idx)}
+          isActive={false}
+          code={prog.field_code}
+        />
+      ),
+      children: (
+        <ChildrenComponent
+          quota_info={Object.keys(quotaInfo).length ? quotaInfo : undefined}
+          day={activeTab ? translateEduType(t, activeTab) : ""}
+          period={t("bachelor.study_period", { study_period: prog.duration })}
+          price={t("bachelor.price_part_time", {
+            price_part_time: formatPrice(prog.price),
+          })}
+          day1=""
+          period1=""
+          price1=""
+        />
+      ),
+    };
+  });
+
+  /* ------ Tabs.items ------ */
+  const items = availableTabs.map<TabItem>((tab) => ({
+    ...tab,
+    label: translateEduType(t, tab.key),
+  }));
+
+  /* ------ JSX ------ */
   return (
-    <section id="program" className="container mt-20 max-sm:mt-0">
-      <article>
-        <h2 className="text-primary font-[500] text-[32px] leading-[48px]">
-          {t("bachelor.direction")}
-        </h2>
-        <div className="mt-[60px] gap-[80px] flex items-start w-full">
-          <div className="w-full">
-            <Tabs
-              defaultActiveKey="1"
-              type="line"
-              items={items}
-              className="custom-tabs"
-            />
-          </div>
+    <div className="degree-section mt-8">
+      <div className="container mx-auto max-w-7xl px-4">
+        {/* ---- Degree switch ---- */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-6">{t("bachelor.direction")}</h2>
+          {[EnumEduDegree.BACHELOR, EnumEduDegree.MASTER].map((d) => (
+            <button
+              key={d}
+              onClick={() => setDegree(d)}
+              className={`mx-3 px-6 py-3 rounded-lg font-bold text-lg transition ${
+                degree === d
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              {d === EnumEduDegree.BACHELOR
+                ? t("bachelor.title") || "Bakalavr"
+                : t("master.title") || "Magistratura"}
+            </button>
+          ))}
         </div>
-      </article>
-    </section>
+
+        {/* ---- Tabs ---- */}
+        {items.length ? (
+          <Tabs
+            type="card"
+            items={items.map((tab) => ({
+              key: tab.key,
+              label: tab.label,
+              children:
+                tabLoading && activeTab === tab.key ? (
+                  <div className="text-center py-10">
+                    <Spin />
+                  </div>
+                ) : (
+                  <Collapse accordion items={buildCollapseItems} />
+                ),
+            }))}
+            activeKey={activeTab ?? undefined}
+            onChange={(k) => changeTab(k as EnumEduType)}
+          />
+        ) : (
+          <Alert
+            className="mt-12"
+            message="Ma'lumot topilmadi"
+            description={`$${degree === EnumEduDegree.BACHELOR ? "Bakalavr" : "Magistratura"} darajasida yo'nalishlar mavjud emas.`}
+            type="info"
+            showIcon
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
-export default Degree;
+export default DynamicDegree;

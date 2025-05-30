@@ -11,6 +11,8 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import Contact from "@/components/main/Contact";
 import Litsenziya from "@/components/main/Litsenziya";
+import DynamicDegree from "@/components/main/degree";
+import { EnumEduDegree } from "@/types/degree.types";
 
 export default function Home({ params }: { params: string }) {
   const t = useTranslations("Header");
@@ -20,7 +22,7 @@ export default function Home({ params }: { params: string }) {
       <main>
         <About />
         <Why />
-        <Degree />
+        <DynamicDegree language="uz" />
         <Partners />
         <StudentLife />
         <Litsenziya />

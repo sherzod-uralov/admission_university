@@ -1,35 +1,113 @@
-import React from "react";
-import { useTranslations } from "next-intl";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import partner1 from "@/public/Partners/800_63bc4e5edaea6 1.png";
-import partner3 from "@/public/Partners/800_63bc4d65e1e99 1.png";
-import partner4 from "@/public/Partners/800_63bc53c46749b 1.png";
-import partner5 from "@/public/Partners/800_63bc5385d4449 1.png";
-import partner6 from "@/public/Partners/asfg 1.png";
-import partner7 from "@/public/Partners/EduEffectFinland_logo-e1575038915364.png";
-import partner8 from "@/public/Partners/800_63bc4d4857402.png";
-import partner9 from "@/public/Partners/UNICEF_Logo 1.png";
-import partner10 from "@/public/Partners/rowan_logo_stacked_old 1.png";
-import partner11 from "@/public/Partners/qweqwcx 1.png";
-import partner12 from "@/public/Partners/Group 19.png";
 import Marquee from "react-fast-marquee";
+import { useTranslations } from "next-intl";
 
-const partners = [
-  partner1,
-  partner3,
-  partner4,
-  partner5,
-  partner6,
-  partner7,
-  partner8,
-  partner9,
-  partner10,
-  partner11,
-  partner12,
-];
+/** --------------------------------------------------
+ *  Partner interfaces
+ * --------------------------------------------------*/
+export interface PartnerImage {
+  file_path: string; // "/public/Files/Nokia.svg"
+  content_type: string;
+  file_name: string;
+}
 
-const Partners = () => {
+export interface Partner {
+  id: string;
+  name: string;
+  link: string;
+  description_uz: string;
+  description_ru: string;
+  description_en: string;
+  image: PartnerImage;
+}
+
+/** --------------------------------------------------
+ *  Helpers
+ * --------------------------------------------------*/
+const API_URL = "https://source.nordicuniversity.org"; // bir xil domen bo'lsa shu
+const ENDPOINT = "/api/core/partners?page=1&limit=100";
+
+const fullImgSrc = (img: PartnerImage) => `${API_URL}${img.file_path}`;
+
+/* 2 ta marquee qatoriga bo'lib berish (zigzag)
+   [0,1,2,3,4,5,6,7,8] -> row1: 0,2,4,6,8  row2: 1,3,5,7
+*/
+const splitRows = (arr: Partner[]): [Partner[], Partner[]] => {
+  const rowA: Partner[] = [];
+  const rowB: Partner[] = [];
+  arr.forEach((p, i) => (i % 2 === 0 ? rowA.push(p) : rowB.push(p)));
+  return [rowA, rowB];
+};
+
+/** --------------------------------------------------
+ *  Component
+ * --------------------------------------------------*/
+const Partners: React.FC = () => {
   const t = useTranslations("partners");
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(`${API_URL}${ENDPOINT}`);
+        if (!res.ok) throw new Error("Partner ma'lumotlari olinmadi");
+        const data = (await res.json()) as { data: Partner[] };
+        setPartners(data.data ?? []);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Noma'lum xatolik");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading)
+    return (
+      <section className="py-20 text-center">
+        <span className="animate-pulse text-lg">Loading…</span>
+      </section>
+    );
+
+  if (error)
+    return (
+      <section className="py-20 text-center text-red-600">{error}</section>
+    );
+
+  const [row1, row2] = splitRows(partners);
+
+  const renderRow = (row: Partner[], reverse = false) => (
+    <Marquee
+      className="overflow-hidden"
+      speed={50}
+      pauseOnHover
+      gradient={true}
+      direction={reverse ? "right" : "left"}
+    >
+      {row.map((partner) => (
+        <a
+          key={partner.id}
+          href={partner.link}
+          target="_blank"
+          rel="noreferrer"
+          className="flex  items-center justify-center w-[260px] h-[150px] max-sm:w-[150px] px-4"
+        >
+          <Image
+            src={fullImgSrc(partner.image)}
+            alt={partner.name}
+            width={191}
+            height={60}
+            className="object-contain max-sm:w-[100px]"
+            unoptimized={partner.image.content_type === "image/svg+xml"}
+          />
+        </a>
+      ))}
+    </Marquee>
+  );
 
   return (
     <section
@@ -40,40 +118,11 @@ const Partners = () => {
         <h2 className="container font-[500] text-[32px] leading-[48px] text-primary pb-16 max-sm:pb-10">
           {t("partner")}
         </h2>
+
         <div className="primary-rgb">
-          <div className="container">
-            <Marquee speed={50} pauseOnHover={true} className="">
-              {partners.slice(0, 6).map((partner, index) => (
-                <div
-                  key={index}
-                  className="flex items-center max-sm:w-[150px] h-[150px] w-[305px] justify-center rounded-md"
-                >
-                  <Image
-                    src={partner}
-                    width={191}
-                    height={60}
-                    alt={`Partner ${index + 1}`}
-                    className="max-sm:w-[100px] mx-auto"
-                  />
-                </div>
-              ))}
-            </Marquee>
-            <Marquee direction="right" speed={50} pauseOnHover={true}>
-              {partners.slice(6, 12).map((partner, index) => (
-                <div
-                  key={index}
-                  className="flex  items-center h-[150px] max-sm:w-[150px] w-[305px] justify-center rounded-md"
-                >
-                  <Image
-                    src={partner}
-                    width={191}
-                    height={60}
-                    alt={`Partner ${index + 1}`}
-                    className="max-sm:w-[100px] mx-auto"
-                  />
-                </div>
-              ))}
-            </Marquee>
+          <div className="container overflow-hidden space-y-8">
+            {renderRow(row1)}
+            {row2.length > 0 && renderRow(row2, true)}
           </div>
         </div>
       </article>
