@@ -43,16 +43,16 @@ const ChildrenComponent = ({
           </h2>
         </div>
         <div className="flex flex-wrap gap-3 max-sm:text-[14px]  w-full">
-          <h2>{quota_info.total_quota}</h2>
+          <h2>{quota_info?.total_quota}</h2>
           <div className="flex items-center gap-3">
             <span className="border-[#D3D3D4] h-[20px] w-0 border-[1px] block" />
-            <h2>{quota_info.uzbek_quota}</h2>
+            <h2>{quota_info?.uzbek_quota}</h2>
           </div>
           <div className="flex items-center gap-3">
             <span
-              className={`${!quota_info.russian_quota && !quota_info.english_quota && "hidden"} border-[#D3D3D4] h-[20px] w-0 border-[1px] block`}
+              className={`${!quota_info?.russian_quota && !quota_info?.english_quota && "hidden"} border-[#D3D3D4] h-[20px] w-0 border-[1px] block`}
             />
-            <h2>{quota_info.russian_quota || quota_info.english_quota}</h2>
+            <h2>{quota_info?.russian_quota || quota_info?.english_quota}</h2>
           </div>
         </div>
       </div>
@@ -73,13 +73,13 @@ const ChildrenComponent = ({
               </h2>
             </div>
             <div className="flex items-center flex-wrap max-sm:text-[14px]  gap-3 w-full">
-              <h2>{quota2_info.total_quota}</h2>
+              <h2>{quota_info?.total_quota}</h2>
               <span className="border-[#D3D3D4] h-[20px] w-0 border-[1px] block" />
-              <h2>{quota2_info.uzbek_quota}</h2>
+              <h2>{quota_info?.uzbek_quota}</h2>
               <span
-                className={`${!quota2_info.russian_quota && !quota2_info.english_quota && "hidden"} border-[#D3D3D4] h-[20px] w-0 border-[1px] block`}
+                className={`${!quota_info?.russian_quota && !quota_info?.english_quota && "hidden"} border-[#D3D3D4] h-[20px] w-0 border-[1px] block`}
               />
-              <h2>{quota2_info.russian_quota || quota2_info.english_quota}</h2>
+              <h2>{quota_info?.russian_quota || quota_info?.english_quota}</h2>
             </div>
           </div>
         </div>

@@ -126,6 +126,7 @@ const DynamicDegree: React.FC<Props> = ({ language = "uz" }) => {
   }));
 
   /* ------ JSX ------ */
+  // @ts-ignore
   return (
     <div className="degree-section mt-8">
       <div className="container mx-auto max-w-7xl px-4">
@@ -162,7 +163,16 @@ const DynamicDegree: React.FC<Props> = ({ language = "uz" }) => {
                     <Spin />
                   </div>
                 ) : (
-                  <Collapse accordion items={buildCollapseItems} />
+                  <Collapse
+                    accordion
+                    items={buildCollapseItems}
+                    //@ts-ignore
+                    expandIcon={({ isActive, panelKey }) => (
+                      <strong className="text-primary mt-2 font-bold text-lg">
+                        {String(Number(panelKey) + 1).padStart(2, "0")}
+                      </strong>
+                    )}
+                  />
                 ),
             }))}
             activeKey={activeTab ?? undefined}
