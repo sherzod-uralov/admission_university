@@ -3,12 +3,7 @@
 import React, { useState } from "react";
 import { Tabs, Collapse, Spin, Alert } from "antd";
 import { useTranslations } from "next-intl";
-import {
-  EnumEduDegree,
-  EnumEduType,
-  TabItem,
-  IFields, // yangi tip
-} from "@/types/degree.types";
+import { EnumEduDegree, EnumEduType, TabItem } from "@/types/degree.types";
 import LabelComponent from "@/app/helpers/labelComponent";
 import ChildrenComponent from "@/app/helpers/childrenComponent";
 import { useEducationDirections } from "@/components/hooks/useDegree.hook";
@@ -77,8 +72,7 @@ const DynamicDegree: React.FC<Props> = ({ language = "uz" }) => {
     );
 
   /* ------ Collapse creator ------ */
-  const buildCollapseItems = (currentTabData as IFields[]).map((prog, idx) => {
-    // Quota obyektini dinamik tarjima qilish
+  const buildCollapseItems = (currentTabData as any[]).map((prog, idx) => {
     const quotaInfo: Record<string, string> = {};
     if (prog?.quota) {
       const { total, uz, ru, en } = prog?.quota;
@@ -110,6 +104,7 @@ const DynamicDegree: React.FC<Props> = ({ language = "uz" }) => {
       ),
       children: (
         <ChildrenComponent
+          //@ts-ignore
           quota_info={Object.keys(quotaInfo).length ? quotaInfo : undefined}
           day={activeTab ? translateEduType(t, activeTab) : ""}
           period={t("bachelor.study_period", { study_period: prog.duration })}
