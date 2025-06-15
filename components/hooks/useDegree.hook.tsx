@@ -11,7 +11,7 @@ interface UseEducationDirectionsProps {
   eduDegree: EnumEduDegree;
   language: string;
 }
-
+//asdasdasdasd
 export const useEducationDirections = ({
   eduDegree,
   language,
