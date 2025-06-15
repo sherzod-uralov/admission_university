@@ -1,13 +1,26 @@
-name: Working Telegram
+name: Debug Telegram Response
 
 on: [push]
 
 jobs:
-  notify:
+  debug:
     runs-on: self-hosted
     
     steps:
-    - name: Send Telegram notification
+    - name: Test with response
       shell: cmd
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" -d "text=GitHub Push Alert! Repository: ${{ github.repository }}, Author: ${{ github.actor }}, Status: Success"
+        echo Testing Telegram API...
+        curl -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" -d "text=Test message with response" 
+        
+    - name: Show bot info
+      shell: cmd  
+      run: |
+        echo Bot info:
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/getMe"
+        
+    - name: Show recent updates
+      shell: cmd
+      run: |
+        echo Recent updates:
+        curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/getUpdates"
