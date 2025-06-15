@@ -1,108 +1,54 @@
-name: Simple Telegram Notification
+name: Ultra Simple Telegram
 
-on:
-  push:
-    branches: [ "main", "master" ]
+on: [push]
 
 jobs:
-  notify:
+  simple-telegram:
     runs-on: self-hosted
     
     steps:
-    - name: Send push notification to Telegram
+    - name: Test 1 - Check token
+      shell: powershell
+      run: |
+        $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
+        if ($token) {
+            Write-Host "✅ Token mavjud, uzunligi: $($token.Length)"
+        } else {
+            Write-Host "❌ Token mavjud emas!"
+        }
+    
+    - name: Test 2 - Simple Telegram API call
       shell: powershell
       run: |
         try {
-            $botToken = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
+            $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
+            $url = "https://api.telegram.org/bot$token/getMe"
+            Write-Host "URL: $url"
             
-            if (-not $botToken) {
-                Write-Host "❌ Bot token topilmadi!"
-                exit 1
-            }
+            $response = Invoke-RestMethod -Uri $url -Method Get
+            Write-Host "Bot info: $($response | ConvertTo-Json)"
+        }
+        catch {
+            Write-Host "Error: $($_.Exception.Message)"
+            Write-Host "Error details: $($_.Exception)"
+        }
+      continue-on-error: true
+        
+    - name: Test 3 - Get updates
+      shell: powershell  
+      run: |
+        try {
+            $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
+            $url = "https://api.telegram.org/bot$token/getUpdates"
             
-            Write-Host "🔄 Telegram'ga xabar yuborilmoqda..."
+            $updates = Invoke-RestMethod -Uri $url -Method Get
+            Write-Host "Updates count: $($updates.result.Count)"
             
-            # Telegram API orqali bot subscribers'ni olish
-            $telegramUrl = "https://api.telegram.org/bot$botToken"
-            $updatesUrl = "$telegramUrl/getUpdates"
-            
-            $updates = Invoke-RestMethod -Uri $updatesUrl -Method Get -TimeoutSec 10
-            
-            # Chat ID'larni yig'ish
-            $chatIds = @()
-            foreach ($update in $updates.result) {
-                if ($update.message -and $update.message.chat.id) {
-                    $chatId = $update.message.chat.id
-                    if ($chatIds -notcontains $chatId) {
-                        $chatIds += $chatId
-                    }
-                }
-            }
-            
-            if ($chatIds.Count -eq 0) {
-                Write-Host "⚠️ Hech qanday chat topilmadi. Botga /start yuboring!"
-                exit 0
-            }
-            
-            Write-Host "👥 Topilgan foydalanuvchilar: $($chatIds.Count)"
-            
-            # Xabar tayyorlash
-            $message = "📢 *GitHub Push Notification*`n`n" +
-                      "📁 *Repository:* ${{ github.repository }}`n" +
-                      "🔧 *Commit:* ``${{ github.sha }}```n" +
-                      "👤 *Author:* ${{ github.actor }}`n" +
-                      "⏰ *Time:* $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n`n" +
-                      "✅ *Push muvaffaqiyatli amalga oshirildi!*"
-            
-            # Har bir chat'ga xabar yuborish
-            $successCount = 0
-            $errorCount = 0
-            
-            foreach ($chatId in $chatIds) {
-                try {
-                    $body = @{
-                        chat_id = $chatId
-                        text = $message
-                        parse_mode = "Markdown"
-                    } | ConvertTo-Json -Depth 10
-                    
-                    $response = Invoke-RestMethod -Uri "$telegramUrl/sendMessage" -Method Post -Body $body -ContentType "application/json" -TimeoutSec 10
-                    
-                    if ($response.ok) {
-                        $successCount++
-                        Write-Host "✅ Xabar yuborildi: $chatId"
-                    } else {
-                        $errorCount++
-                        Write-Host "❌ Xabar yuborilmadi: $chatId"
-                    }
-                }
-                catch {
-                    $errorCount++
-                    Write-Host "❌ Xatolik ($chatId): $($_.Exception.Message)"
-                }
-                
-                # API limit uchun kichik pauza
-                Start-Sleep -Milliseconds 100
-            }
-            
-            Write-Host ""
-            Write-Host "📊 Natija:"
-            Write-Host "   Muvaffaqiyatli: $successCount"
-            Write-Host "   Xatolik: $errorCount"
-            Write-Host "   Jami: $($chatIds.Count)"
-            
-            if ($successCount -gt 0) {
-                Write-Host "🎉 Telegram bildirishnoma muvaffaqiyatli yuborildi!"
-            } else {
-                Write-Host "😞 Hech qanday xabar yuborilmadi."
-                exit 1
+            if ($updates.result.Count -gt 0) {
+                Write-Host "First update: $($updates.result[0] | ConvertTo-Json)"
             }
         }
         catch {
-            Write-Host "💥 Umumiy xatolik: $($_.Exception.Message)"
-            Write-Host "🔍 Tekshiring:"
-            Write-Host "   1. Bot token to'g'rimi?"
-            Write-Host "   2. Internet aloqasi bormi?"
-            Write-Host "   3. Botga /start yubordiingizmi?"
-            exit 1
+            Write-Host "Error getting updates: $($_.Exception.Message)"
         }
+      continue-on-error: true
