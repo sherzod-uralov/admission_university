@@ -1,45 +1,111 @@
-name: Check Bot Updates
+name: JavaScript Telegram Notification
 
-on: [push]
+on:
+  push:
+    branches: [ "main", "master" ]
 
 jobs:
-  check-updates:
+  notify:
     runs-on: self-hosted
     
     steps:
-    - name: Check what bot sees
-      shell: powershell
-      run: |
-        $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
-        $url = "https://api.telegram.org/bot$token/getUpdates"
-        
-        Write-Host "🔍 Checking bot updates..."
-        Write-Host "URL: $url"
-        
-        try {
-            $updates = Invoke-RestMethod -Uri $url -Method Get
-            Write-Host "✅ API call successful"
-            Write-Host "Updates result count: $($updates.result.Count)"
+    - name: Send Telegram notification
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const botToken = '${{ secrets.TELEGRAM_BOT_TOKEN }}';
+          
+          if (!botToken) {
+            console.log('❌ Bot token not found!');
+            return;
+          }
+          
+          console.log('🔄 Sending Telegram notification...');
+          
+          try {
+            // Get bot updates to find chat IDs
+            const updatesResponse = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates`);
+            const updatesData = await updatesResponse.json();
             
-            if ($updates.result.Count -eq 0) {
-                Write-Host "⚠️ No updates found!"
-                Write-Host "Please send /start to your bot in Telegram first!"
-            } else {
-                Write-Host "📱 Found $($updates.result.Count) updates"
-                
-                # Har bir update'ni ko'rsatish
-                for ($i = 0; $i -lt [Math]::Min(3, $updates.result.Count); $i++) {
-                    $update = $updates.result[$i]
-                    Write-Host "Update $($i+1):"
-                    Write-Host "  Chat ID: $($update.message.chat.id)"
-                    Write-Host "  From: $($update.message.from.first_name)"
-                    Write-Host "  Text: $($update.message.text)"
-                    Write-Host "  Date: $($update.message.date)"
-                }
+            console.log(`📊 Found ${updatesData.result.length} updates`);
+            
+            // Extract unique chat IDs
+            const chatIds = [...new Set(
+              updatesData.result
+                .filter(update => update.message && update.message.chat.id)
+                .map(update => update.message.chat.id)
+            )];
+            
+            console.log(`👥 Found ${chatIds.length} unique chats`);
+            
+            if (chatIds.length === 0) {
+              console.log('⚠️ No chats found. Please send /start to your bot first!');
+              return;
             }
-        }
-        catch {
-            Write-Host "❌ API call failed!"
-            Write-Host "Error: $($_.Exception.Message)"
-            Write-Host "Response: $($_.Exception.Response)"
-        }
+            
+            // Prepare message
+            const message = `🚀 *GitHub Push Notification*
+            
+📁 *Repository:* ${{ github.repository }}
+🔧 *Commit:* \`${{ github.sha }}\`
+👤 *Author:* ${{ github.actor }}
+⏰ *Time:* ${new Date().toLocaleString()}
+
+✅ *Push successfully completed!*`;
+            
+            // Send message to each chat
+            let successCount = 0;
+            let errorCount = 0;
+            
+            for (const chatId of chatIds) {
+              try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'Markdown'
+                  })
+                });
+                
+                const data = await response.json();
+                
+                if (data.ok) {
+                  console.log(`✅ Message sent to chat ${chatId}`);
+                  successCount++;
+                } else {
+                  console.log(`❌ Failed to send to chat ${chatId}: ${data.description}`);
+                  errorCount++;
+                }
+              } catch (error) {
+                console.log(`❌ Error sending to chat ${chatId}: ${error.message}`);
+                errorCount++;
+              }
+              
+              // Small delay to avoid rate limiting
+              await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            console.log('📊 Results:');
+            console.log(`   ✅ Successful: ${successCount}`);
+            console.log(`   ❌ Failed: ${errorCount}`);
+            console.log(`   📱 Total chats: ${chatIds.length}`);
+            
+            if (successCount > 0) {
+              console.log('🎉 Telegram notification sent successfully!');
+            } else {
+              console.log('😞 No messages were sent.');
+              process.exit(1);
+            }
+            
+          } catch (error) {
+            console.log(`💥 General error: ${error.message}`);
+            console.log('🔍 Please check:');
+            console.log('   1. Bot token is correct');
+            console.log('   2. Internet connection is working');
+            console.log('   3. You sent /start to the bot');
+            process.exit(1);
+          }
