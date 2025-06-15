@@ -1,21 +1,67 @@
-name: Simple Broadcast
+name: Broadcast Deployment
 
 on:
   push:
     branches: [ "main", "master" ]
 
 jobs:
-  broadcast:
+  deploy:
     runs-on: self-hosted
     
     steps:
-    - name: Get subscribers and broadcast
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get all subscribers
       shell: cmd
       run: |
-        echo Getting bot updates...
+        echo Getting bot subscribers...
         curl -s "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/getUpdates" > updates.json
         
-        echo Sending broadcast message...
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=GitHub Push Alert! Repository: ${{ github.repository }}, Author: ${{ github.actor }}, Commit: ${{ github.sha }}, Status: SUCCESS"
+    - name: Send deployment start notification to all
+      shell: cmd
+      run: |
+        echo Broadcasting deployment start...
+        for /f "tokens=*" %%i in ('powershell -command "& {(Get-Content updates.json | ConvertFrom-Json).result | Where-Object {$_.message} | ForEach-Object {$_.message.chat.id} | Sort-Object -Unique}"') do (
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=%%i" -d "text=DEPLOYMENT STARTED - Repository: ${{ github.repository }}, Author: ${{ github.actor }}, Commit: ${{ github.sha }}"
+        )
         
-        echo Broadcast completed!
+    - name: Execute deployment script
+      shell: cmd
+      id: deploy
+      run: |
+        echo Checking for deploy.bat...
+        if exist "deploy.bat" (
+          echo deploy.bat found, executing...
+          call deploy.bat
+          if %errorlevel% equ 0 (
+            echo deploy.bat executed successfully
+            echo DEPLOY_STATUS=SUCCESS >> %GITHUB_ENV%
+          ) else (
+            echo deploy.bat failed with error code %errorlevel%
+            echo DEPLOY_STATUS=FAILED >> %GITHUB_ENV%
+            exit /b 1
+          )
+        ) else (
+          echo deploy.bat not found!
+          echo DEPLOY_STATUS=FAILED >> %GITHUB_ENV%
+          exit /b 1
+        )
+        
+    - name: Send success notification to all
+      if: success()
+      shell: cmd
+      run: |
+        echo Broadcasting success...
+        for /f "tokens=*" %%i in ('powershell -command "& {(Get-Content updates.json | ConvertFrom-Json).result | Where-Object {$_.message} | ForEach-Object {$_.message.chat.id} | Sort-Object -Unique}"') do (
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=%%i" -d "text=DEPLOYMENT SUCCESS - Repository: ${{ github.repository }}, Author: ${{ github.actor }}, Status: Completed successfully, Time: %date% %time%"
+        )
+        
+    - name: Send failure notification to all
+      if: failure()
+      shell: cmd
+      run: |
+        echo Broadcasting failure...
+        for /f "tokens=*" %%i in ('powershell -command "& {(Get-Content updates.json | ConvertFrom-Json).result | Where-Object {$_.message} | ForEach-Object {$_.message.chat.id} | Sort-Object -Unique}"') do (
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=%%i" -d "text=DEPLOYMENT FAILED - Repository: ${{ github.repository }}, Author: ${{ github.actor }}, Status: Failed, Time: %date% %time%"
+        )
