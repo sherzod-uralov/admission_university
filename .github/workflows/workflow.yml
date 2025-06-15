@@ -15,11 +15,7 @@ jobs:
     - name: Send deployment start notification
       shell: cmd
       run: |
-        for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
-        set "current_time=%dt:~0,4%-%dt:~4,2%-%dt:~6,2% %dt:~8,2%:%dt:~10,2%:%dt:~12,2%"
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=🚀 DEPLOYMENT STARTED%0ARepository: ${{ github.repository }}%0AAuthor: ${{ github.actor }}%0ACommit: ${{ github.sha }}%0ATime: %current_time%"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=🚀 DEPLOYMENT STARTED%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ACommit: ${{ github.sha }}%%0ATime: %date% %time%"
         
     - name: Debug - Show current directory and files
       shell: cmd
@@ -40,9 +36,7 @@ jobs:
     - name: Send step 1 notification
       shell: cmd
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=📋 STEP 1/7: Git ma'lumotlari olinmoqda..."
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=📋 STEP 1/7: Git ma'lumotlari olinmoqda..."
         
     - name: Execute Git info step
       shell: cmd
@@ -260,18 +254,10 @@ jobs:
       if: success()
       shell: cmd
       run: |
-        for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
-        set "current_time=%dt:~0,4%-%dt:~4,2%-%dt:~6,2% %dt:~8,2%:%dt:~10,2%:%dt:~12,2%"
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=✅ DEPLOYMENT SUCCESS%0ARepository: ${{ github.repository }}%0AAuthor: ${{ github.actor }}%0ACommit: ${{ github.sha }}%0A%0AALL STEPS COMPLETED:%0A✓ Git info%0A✓ Project check%0A✓ npm install --force%0A✓ Dependencies check%0A✓ Backup created%0A✓ npm run build%0A✓ npm run start%0A%0AStatus: SUCCESS ✅%0ATime: %current_time%"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=✅ DEPLOYMENT SUCCESS%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ACommit: ${{ github.sha }}%%0A%%0AALL STEPS COMPLETED:%%0A✓ Git info%%0A✓ Project check%%0A✓ npm install --force%%0A✓ Dependencies check%%0A✓ Backup created%%0A✓ npm run build%%0A✓ npm run start%%0A%%0AStatus: SUCCESS ✅%%0ATime: %date% %time%"
         
     - name: Send failure notification
       if: failure()
       shell: cmd
       run: |
-        for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
-        set "current_time=%dt:~0,4%-%dt:~4,2%-%dt:~6,2% %dt:~8,2%:%dt:~10,2%:%dt:~12,2%"
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=❌ DEPLOYMENT FAILED%0ARepository: ${{ github.repository }}%0AAuthor: ${{ github.actor }}%0ACommit: ${{ github.sha }}%0A%0AStatus: FAILED ❌%0ATime: %current_time%"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=❌ DEPLOYMENT FAILED%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ACommit: ${{ github.sha }}%%0A%%0AStatus: FAILED ❌%%0ATime: %date% %time%"
