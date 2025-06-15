@@ -1,54 +1,67 @@
-name: Ultra Simple Telegram
+name: Send Message Test
 
 on: [push]
 
 jobs:
-  simple-telegram:
+  send-test:
     runs-on: self-hosted
     
     steps:
-    - name: Test 1 - Check token
-      shell: powershell
-      run: |
-        $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
-        if ($token) {
-            Write-Host "✅ Token mavjud, uzunligi: $($token.Length)"
-        } else {
-            Write-Host "❌ Token mavjud emas!"
-        }
-    
-    - name: Test 2 - Simple Telegram API call
+    - name: Get chat IDs and send message
       shell: powershell
       run: |
         try {
             $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
-            $url = "https://api.telegram.org/bot$token/getMe"
-            Write-Host "URL: $url"
+            $baseUrl = "https://api.telegram.org/bot$token"
             
-            $response = Invoke-RestMethod -Uri $url -Method Get
-            Write-Host "Bot info: $($response | ConvertTo-Json)"
-        }
-        catch {
-            Write-Host "Error: $($_.Exception.Message)"
-            Write-Host "Error details: $($_.Exception)"
-        }
-      continue-on-error: true
-        
-    - name: Test 3 - Get updates
-      shell: powershell  
-      run: |
-        try {
-            $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
-            $url = "https://api.telegram.org/bot$token/getUpdates"
+            Write-Host "🔍 Getting updates..."
+            $updates = Invoke-RestMethod -Uri "$baseUrl/getUpdates" -Method Get
             
-            $updates = Invoke-RestMethod -Uri $url -Method Get
-            Write-Host "Updates count: $($updates.result.Count)"
+            Write-Host "📊 Total updates: $($updates.result.Count)"
             
-            if ($updates.result.Count -gt 0) {
-                Write-Host "First update: $($updates.result[0] | ConvertTo-Json)"
+            # Chat ID'larni yig'ish
+            $chatIds = @()
+            foreach ($update in $updates.result) {
+                if ($update.message -and $update.message.chat.id) {
+                    $chatId = $update.message.chat.id
+                    if ($chatIds -notcontains $chatId) {
+                        $chatIds += $chatId
+                        Write-Host "👤 Found chat ID: $chatId"
+                    }
+                }
             }
+            
+            Write-Host "💬 Unique chats: $($chatIds.Count)"
+            
+            if ($chatIds.Count -eq 0) {
+                Write-Host "⚠️ No chats found. Send /start to your bot first!"
+                exit 0
+            }
+            
+            # Oddiy xabar yuborish
+            $message = "🚀 Test message from GitHub Actions!`n`nRepository: ${{ github.repository }}`nTime: $(Get-Date)"
+            
+            foreach ($chatId in $chatIds) {
+                Write-Host "📤 Sending to chat: $chatId"
+                
+                $body = @{
+                    chat_id = $chatId
+                    text = $message
+                } | ConvertTo-Json
+                
+                $response = Invoke-RestMethod -Uri "$baseUrl/sendMessage" -Method Post -Body $body -ContentType "application/json"
+                
+                if ($response.ok) {
+                    Write-Host "✅ Message sent successfully to $chatId"
+                } else {
+                    Write-Host "❌ Failed to send to $chatId"
+                }
+            }
+            
+            Write-Host "🎉 Test completed!"
         }
         catch {
-            Write-Host "Error getting updates: $($_.Exception.Message)"
+            Write-Host "💥 Error: $($_.Exception.Message)"
+            Write-Host "📍 Line: $($_.InvocationInfo.ScriptLineNumber)"
+            exit 1
         }
-      continue-on-error: true
