@@ -17,7 +17,7 @@ jobs:
     - name: Get all bot subscribers and send start notification
       run: |
         # Barcha foydalanuvchilarni olish
-        $telegramUrl = "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}"
+        $telegramUrl = "https://api.telegram.org/bot6326720918:AAEwOq_ZUt0fE5OCmMVYWfCn3jlHGVlJ-cc"
         
         # Bot updates orqali barcha chat_id larni olish
         $updatesUrl = "$telegramUrl/getUpdates"
