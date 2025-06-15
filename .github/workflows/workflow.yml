@@ -1,4 +1,4 @@
-name: Broadcast to All Users
+name: JavaScript Broadcast
 
 on:
   push:
@@ -9,89 +9,83 @@ jobs:
     runs-on: self-hosted
     
     steps:
-    - name: Send to all bot subscribers
-      shell: powershell
-      run: |
-        try {
-            $botToken = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
-            $baseUrl = "https://api.telegram.org/bot$botToken"
+    - name: Broadcast to all subscribers
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const botToken = '${{ secrets.TELEGRAM_BOT_TOKEN }}';
+          
+          console.log('Getting bot subscribers...');
+          
+          try {
+            // Get all updates
+            const updatesResponse = await fetch(`https://api.telegram.org/bot${botToken}/getUpdates`);
+            const updatesData = await updatesResponse.json();
             
-            Write-Host "🔍 Getting all bot subscribers..."
+            console.log(`Found ${updatesData.result.length} total updates`);
             
-            # Bot updates orqali barcha chat ID'larni olish
-            $updates = Invoke-RestMethod -Uri "$baseUrl/getUpdates" -Method Get
+            // Extract unique chat IDs
+            const chatIds = [...new Set(
+              updatesData.result
+                .filter(update => update.message && update.message.chat.id)
+                .map(update => update.message.chat.id)
+            )];
             
-            Write-Host "📊 Total updates found: $($updates.result.Count)"
+            console.log(`Broadcasting to ${chatIds.length} unique users`);
             
-            # Unique chat ID'larni yig'ish
-            $chatIds = @()
-            foreach ($update in $updates.result) {
-                if ($update.message -and $update.message.chat.id) {
-                    $chatId = $update.message.chat.id
-                    if ($chatIds -notcontains $chatId) {
-                        $chatIds += $chatId
-                        $firstName = $update.message.from.first_name
-                        Write-Host "👤 Found user: $firstName (ID: $chatId)"
-                    }
-                }
+            if (chatIds.length === 0) {
+              console.log('No subscribers found. Users need to send /start to the bot first!');
+              return;
             }
             
-            Write-Host "📢 Broadcasting to $($chatIds.Count) users..."
+            // Prepare message
+            const message = `GitHub Push Alert!
             
-            if ($chatIds.Count -eq 0) {
-                Write-Host "⚠️ No subscribers found. Users need to send /start to the bot first!"
-                exit 0
-            }
+Repository: ${{ github.repository }}
+Author: ${{ github.actor }}
+Commit: ${{ github.sha }}
+Time: ${new Date().toLocaleString()}
+
+Status: SUCCESS`;
             
-            # Xabar tayyorlash
-            $message = "🚀 GitHub Push Notification`n`n" +
-                      "📁 Repository: ${{ github.repository }}`n" +
-                      "🔧 Commit: ${{ github.sha }}`n" +
-                      "👤 Author: ${{ github.actor }}`n" +
-                      "⏰ Time: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n`n" +
-                      "✅ Push completed successfully!"
+            // Send to each subscriber
+            let successCount = 0;
+            let errorCount = 0;
             
-            # Har bir foydalanuvchiga yuborish
-            $successCount = 0
-            $errorCount = 0
-            
-            foreach ($chatId in $chatIds) {
-                try {
-                    $body = "chat_id=$chatId&text=$([System.Web.HttpUtility]::UrlEncode($message))"
-                    
-                    $response = Invoke-RestMethod -Uri "$baseUrl/sendMessage" -Method Post -Body $body -ContentType "application/x-www-form-urlencoded"
-                    
-                    if ($response.ok) {
-                        Write-Host "✅ Message sent to $chatId"
-                        $successCount++
-                    } else {
-                        Write-Host "❌ Failed to send to $chatId"
-                        $errorCount++
-                    }
-                }
-                catch {
-                    Write-Host "❌ Error sending to $chatId`: $($_.Exception.Message)"
-                    $errorCount++
-                }
+            for (const chatId of chatIds) {
+              try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message
+                  })
+                });
                 
-                # API rate limit uchun pauza
-                Start-Sleep -Milliseconds 200
+                const data = await response.json();
+                
+                if (data.ok) {
+                  console.log(`Message sent to user ${chatId}`);
+                  successCount++;
+                } else {
+                  console.log(`Failed to send to ${chatId}: ${data.description}`);
+                  errorCount++;
+                }
+              } catch (error) {
+                console.log(`Error sending to ${chatId}: ${error.message}`);
+                errorCount++;
+              }
+              
+              // Small delay to avoid rate limiting
+              await new Promise(resolve => setTimeout(resolve, 200));
             }
             
-            Write-Host ""
-            Write-Host "📊 Broadcast Results:"
-            Write-Host "   ✅ Successful: $successCount"
-            Write-Host "   ❌ Failed: $errorCount"
-            Write-Host "   📱 Total users: $($chatIds.Count)"
+            console.log(`Broadcast completed! Success: ${successCount}, Errors: ${errorCount}`);
             
-            if ($successCount -gt 0) {
-                Write-Host "🎉 Broadcast completed successfully!"
-            } else {
-                Write-Host "😞 No messages were sent."
-                exit 1
-            }
-        }
-        catch {
-            Write-Host "💥 General error: $($_.Exception.Message)"
-            exit 1
-        }
+          } catch (error) {
+            console.log(`Error: ${error.message}`);
+            process.exit(1);
+          }
