@@ -1,18 +1,157 @@
-name: Simple Test
+name: Windows Deployment with Broadcast Notifications
 
 on:
   push:
     branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
 
 jobs:
-  test:
+  deploy-to-windows:
     runs-on: self-hosted
     
     steps:
-    - name: Test basic functionality
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Get all bot subscribers and send start notification
       run: |
-        Write-Host "✅ GitHub Actions ishlayapti!"
-        Write-Host "Repository: ${{ github.repository }}"
-        Write-Host "Vaqt: $(Get-Date)"
-        Write-Host "Runner ID: $env:COMPUTERNAME"
+        # Barcha foydalanuvchilarni olish
+        $telegramUrl = "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}"
+        
+        # Bot updates orqali barcha chat_id larni olish
+        $updatesUrl = "$telegramUrl/getUpdates"
+        $updates = Invoke-RestMethod -Uri $updatesUrl -Method Get
+        
+        # Unique chat_id larni yig'ish
+        $chatIds = @()
+        foreach ($update in $updates.result) {
+            if ($update.message -and $update.message.chat.id) {
+                $chatId = $update.message.chat.id
+                if ($chatIds -notcontains $chatId) {
+                    $chatIds += $chatId
+                }
+            }
+        }
+        
+        Write-Host "Topilgan foydalanuvchilar soni: $($chatIds.Count)"
+        
+        # Har bir foydalanuvchiga xabar yuborish
+        $message = "🚀 *Deployment jarayoni boshlandi*`n`n📁 *Repository:* ${{ github.repository }}`n🔧 *Commit:* ``${{ github.sha }}```n👤 *Muallif:* ${{ github.actor }}`n⏰ *Vaqt:* $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+        
+        foreach ($chatId in $chatIds) {
+            try {
+                $body = @{
+                    chat_id = $chatId
+                    text = $message
+                    parse_mode = "Markdown"
+                } | ConvertTo-Json
+                
+                $response = Invoke-RestMethod -Uri "$telegramUrl/sendMessage" -Method Post -Body $body -ContentType "application/json"
+                Write-Host "Xabar yuborildi: $chatId"
+            }
+            catch {
+                Write-Host "Xatolik: $chatId ga xabar yuborib bo'lmadi - $($_.Exception.Message)"
+            }
+        }
+      shell: powershell
+      
+    - name: Execute batch file
+      id: execute_bat
+      run: |
+        Write-Host "Batch fayl ishga tushirilmoqda..."
+        if (Test-Path "deploy.bat") {
+            $output = cmd /c "deploy.bat" 2>&1
+            Write-Host "Batch fayl muvaffaqiyatli ishga tushdi"
+            Write-Host "Output: $output"
+            
+            # Output'ni environment variable'ga saqlash
+            $cleanOutput = $output -replace '`', '``' -replace '"', '\"'
+            echo "BATCH_OUTPUT=$cleanOutput" >> $env:GITHUB_ENV
+            echo "BATCH_STATUS=success" >> $env:GITHUB_ENV
+        } else {
+            Write-Host "deploy.bat fayl topilmadi!"
+            echo "BATCH_STATUS=failed" >> $env:GITHUB_ENV
+            echo "BATCH_OUTPUT=deploy.bat fayl topilmadi" >> $env:GITHUB_ENV
+            exit 1
+        }
+      shell: powershell
+      
+    - name: Send success notification to all users
+      if: success()
+      run: |
+        # Barcha foydalanuvchilarni olish
+        $telegramUrl = "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}"
+        $updatesUrl = "$telegramUrl/getUpdates"
+        $updates = Invoke-RestMethod -Uri $updatesUrl -Method Get
+        
+        $chatIds = @()
+        foreach ($update in $updates.result) {
+            if ($update.message -and $update.message.chat.id) {
+                $chatId = $update.message.chat.id
+                if ($chatIds -notcontains $chatId) {
+                    $chatIds += $chatId
+                }
+            }
+        }
+        
+        # Muvaffaqiyat xabari
+        $batchOutput = "${{ env.BATCH_OUTPUT }}"
+        $truncatedOutput = if ($batchOutput.Length -gt 2000) { $batchOutput.Substring(0, 2000) + "..." } else { $batchOutput }
+        
+        $message = "✅ *Deployment muvaffaqiyatli yakunlandi!*`n`n📁 *Repository:* ${{ github.repository }}`n🔧 *Commit:* ``${{ github.sha }}```n⏰ *Tugash vaqti:* $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n`n📋 *Natija:*`n``````n$truncatedOutput```"
+        
+        foreach ($chatId in $chatIds) {
+            try {
+                $body = @{
+                    chat_id = $chatId
+                    text = $message
+                    parse_mode = "Markdown"
+                } | ConvertTo-Json
+                
+                Invoke-RestMethod -Uri "$telegramUrl/sendMessage" -Method Post -Body $body -ContentType "application/json"
+                Write-Host "Muvaffaqiyat xabari yuborildi: $chatId"
+            }
+            catch {
+                Write-Host "Xatolik: $chatId ga xabar yuborib bo'lmadi - $($_.Exception.Message)"
+            }
+        }
+      shell: powershell
+      
+    - name: Send failure notification to all users
+      if: failure()
+      run: |
+        # Barcha foydalanuvchilarni olish
+        $telegramUrl = "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}"
+        $updatesUrl = "$telegramUrl/getUpdates"
+        $updates = Invoke-RestMethod -Uri $updatesUrl -Method Get
+        
+        $chatIds = @()
+        foreach ($update in $updates.result) {
+            if ($update.message -and $update.message.chat.id) {
+                $chatId = $update.message.chat.id
+                if ($chatIds -notcontains $chatId) {
+                    $chatIds += $chatId
+                }
+            }
+        }
+        
+        # Xatolik xabari
+        $message = "❌ *Deployment xatolik bilan yakunlandi!*`n`n📁 *Repository:* ${{ github.repository }}`n🔧 *Commit:* ``${{ github.sha }}```n⏰ *Xatolik vaqti:* $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')`n`n⚠️ *Xato:* ${{ env.BATCH_OUTPUT }}"
+        
+        foreach ($chatId in $chatIds) {
+            try {
+                $body = @{
+                    chat_id = $chatId
+                    text = $message
+                    parse_mode = "Markdown"
+                } | ConvertTo-Json
+                
+                Invoke-RestMethod -Uri "$telegramUrl/sendMessage" -Method Post -Body $body -ContentType "application/json"
+                Write-Host "Xatolik xabari yuborildi: $chatId"
+            }
+            catch {
+                Write-Host "Xatolik: $chatId ga xabar yuborib bo'lmadi - $($_.Exception.Message)"
+            }
+        }
       shell: powershell
