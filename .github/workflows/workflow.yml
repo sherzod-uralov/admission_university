@@ -1,4 +1,4 @@
-name: Fixed Detailed Deployment
+name: Direct Project Deployment
 
 on:
   push:
@@ -12,252 +12,78 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Send deployment start notification
+    - name: Send start notification
       shell: cmd
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=🚀 DEPLOYMENT STARTED%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ACommit: ${{ github.sha }}%%0ATime: %date% %time%"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=🚀 DEPLOYMENT STARTED%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ATime: %date% %time%"
         
-    - name: Debug - Show current directory and files
+    - name: Copy to main project and deploy
       shell: cmd
       run: |
-        echo Current directory:
-        cd
+        echo ===== DEPLOYMENT BOSHLANDI =====
+        set PROJECT_DIR=C:\Users\sherz\WebstormProjects\admission_university
+        set RUNNER_DIR=%CD%
+        
+        echo Runner folder: %RUNNER_DIR%
+        echo Project folder: %PROJECT_DIR%
+        
+        REM 1. Yangi kodlarni asosiy papkaga ko'chirish
         echo.
-        echo Files in directory:
-        dir /b
+        echo [1/5] Yangi kodlarni ko'chirish...
+        REM Exclude file yaratish
+        echo node_modules\ > "%TEMP%\deploy_exclude.txt"
+        echo .next\ >> "%TEMP%\deploy_exclude.txt"
+        echo .git\ >> "%TEMP%\deploy_exclude.txt"
+        echo package-lock.json >> "%TEMP%\deploy_exclude.txt"
+        
+        xcopy /E /Y /I "%RUNNER_DIR%\*" "%PROJECT_DIR%\" /EXCLUDE:%TEMP%\deploy_exclude.txt
+        
+        REM 2. Asosiy papkaga o'tish
+        cd /d "%PROJECT_DIR%"
+        echo Hozirgi papka: %CD%
+        
+        REM 3. Tozalash
         echo.
-        echo Looking for package.json:
-        if exist "package.json" (
-          echo package.json FOUND
-        ) else (
-          echo package.json NOT FOUND
+        echo [2/5] Eski fayllarni tozalash...
+        if exist "node_modules" rmdir /s /q node_modules
+        if exist ".next" rmdir /s /q .next
+        if exist "package-lock.json" del /f /q package-lock.json
+        
+        REM 4. npm install
+        echo.
+        echo [3/5] Dependencies o'rnatish...
+        call npm cache clean --force
+        call npm install --force
+        
+        REM 5. Build
+        echo.
+        echo [4/5] Production build...
+        call npm run build
+        
+        REM 6. Server
+        echo.
+        echo [5/5] Server ishga tushirish...
+        REM Eski server to'xtatish
+        for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":3777" ^| findstr "LISTENING"') do (
+          taskkill /f /pid %%a >nul 2>&1
         )
         
-    - name: Send step 1 notification
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=📋 STEP 1/7: Git ma'lumotlari olinmoqda..."
+        REM Yangi server
+        start /b cmd /c "npm run start"
         
-    - name: Execute Git info step
-      shell: cmd
-      run: |
-        echo [1/7] Git ma'lumotlarini olish...
-        git log -1 --pretty=format:"Son'gi commit: %%h - %%s (%%an, %%ar)"
         echo.
-        echo.
+        echo ===== DEPLOYMENT TUGADI =====
+        echo Loyiha: %PROJECT_DIR%
+        echo Server: http://localhost:3777
         
-    - name: Send step 2 notification  
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=🔍 STEP 2/7: Loyiha fayllari tekshirilmoqda..."
-        
-    - name: Execute project check step
-      shell: cmd
-      run: |
-        echo [2/7] Loyiha fayllarini tekshirish...
-        if exist "package.json" (
-          echo Node.js loyihasi topildi
-          echo.
-          echo Package.json tarkibi:
-          type package.json | findstr /i "name version scripts dependencies next"
-        ) else (
-          echo Oddiy fayl loyihasi
-        )
-        echo.
-        
-    - name: Send step 3 notification
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=📦 STEP 3/7: npm install --force jarayoni boshlandi..."
-        
-    - name: Execute npm install step
-      shell: cmd
-      run: |
-        echo [3/7] Node modules tozalash va qayta o'rnatish...
-        if exist "package.json" (
-          echo Eski node_modules o'chirilmoqda...
-          if exist "node_modules" (
-            rmdir /s /q node_modules 2>nul
-            echo node_modules o'chirildi
-          )
-          if exist "package-lock.json" (
-            del /f /q package-lock.json 2>nul
-            echo package-lock.json o'chirildi
-          )
-          if exist ".next" (
-            rmdir /s /q .next 2>nul
-            echo .next papkasi o'chirildi
-          )
-          
-          echo.
-          echo npm cache clean --force...
-          call npm cache clean --force
-          
-          echo.
-          echo npm install --force jarayoni boshlandi...
-          call npm install --force
-          if %errorlevel% equ 0 (
-            echo npm install --force muvaffaqiyatli tugadi
-          ) else (
-            echo npm install --force xatosi: %errorlevel%
-            exit /b 1
-          )
-        ) else (
-          echo Loyiha Node.js emas, npm install kerak emas
-        )
-        echo.
-        
-    - name: Send step 4 notification
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=🔧 STEP 4/7: Dependencies tekshirilmoqda..."
-        
-    - name: Execute dependencies check step
-      shell: cmd
-      run: |
-        echo [4/7] Dependencies tekshirish...
-        if exist "package.json" (
-          echo Next.js o'rnatilganligini tekshirish...
-          if exist "node_modules\next\package.json" (
-            echo Next.js topildi
-          ) else (
-            echo Next.js topilmadi, qo'shimcha o'rnatish...
-            call npm install next react react-dom --save
-          )
-          echo.
-          echo Installed packages:
-          call npm list --depth=0
-        ) else (
-          echo Dependencies tekshirish kerak emas
-        )
-        echo.
-        
-    - name: Send step 5 notification
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=💾 STEP 5/7: Backup yaratilmoqda..."
-        
-    - name: Execute backup step
-      shell: cmd
-      run: |
-        echo [5/7] Backup yaratish...
-        for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
-        set "backup_time=%dt:~0,8%_%dt:~8,6%"
-        set "backup_dir=C:\Backup\admission_university_%backup_time%"
-        
-        if not exist "C:\Backup" mkdir "C:\Backup"
-        mkdir "%backup_dir%" 2>nul
-        
-        echo Backup yaratilmoqda: %backup_dir%
-        xcopy /E /Y /Q /I . "%backup_dir%\" /EXCLUDE:%TEMP%\exclude.txt 2>nul
-        if %errorlevel% equ 0 (
-          echo Backup muvaffaqiyatli yaratildi
-        ) else (
-          echo Backup yaratishda xatolik, lekin davom etilmoqda...
-        )
-        echo.
-        
-    - name: Send step 6 notification
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=🔨 STEP 6/7: npm run build jarayoni boshlandi..."
-        
-    - name: Execute build step
-      shell: cmd
-      run: |
-        echo [6/7] Build jarayoni (npm run build)...
-        if exist "package.json" (
-          echo npm run build jarayoni boshlandi...
-          call npm run build
-          if %errorlevel% equ 0 (
-            echo npm run build muvaffaqiyatli tugadi
-            if exist ".next" (
-              echo .next papkasi yaratildi
-            )
-          ) else (
-            echo npm run build xatosi: %errorlevel%
-            echo Build'siz davom etilmoqda...
-          )
-        ) else (
-          echo Build kerak emas
-        )
-        echo.
-        
-    - name: Send step 7 notification
-      shell: cmd
-      run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" ^
-        -d "chat_id=6135147194" ^
-        -d "text=🌐 STEP 7/7: npm run start - Server ishga tushirilmoqda..."
-        
-    - name: Execute server start step
-      shell: cmd
-      run: |
-        echo [7/7] Server ishga tushirish...
-        if exist "package.json" (
-          echo Server portlarini tekshirish...
-          netstat -an | findstr ":3777" >nul 2>&1
-          if %errorlevel% equ 0 (
-            echo Port 3777 band, eski jarayonni to'xtatish...
-            for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":3777" ^| findstr "LISTENING"') do (
-              taskkill /f /pid %%a >nul 2>&1
-              echo Eski jarayon (PID: %%a) to'xtatildi
-            )
-            timeout /t 2 /nobreak >nul
-          )
-          
-          echo Port 3777 bo'sh, server ishga tushirilmoqda...
-          for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "dt=%%a"
-          set "log_file=server_%dt:~0,8%_%dt:~8,6%.log"
-          
-          echo Server log fayli: %log_file%
-          start /b cmd /c "call npm run start > %log_file% 2>&1"
-          
-          echo Server ishga tushirilishini kutish (10 soniya)...
-          timeout /t 10 /nobreak >nul
-          
-          netstat -an | findstr ":3777" >nul 2>&1
-          if %errorlevel% equ 0 (
-            echo Server muvaffaqiyatli ishga tushdi (port 3777)
-          ) else (
-            echo Server ishga tushmadi yoki boshqa portda ishlayapti
-            type %log_file% | findstr /i "error" 2>nul
-          )
-        ) else (
-          echo Server ishga tushirish kerak emas
-        )
-        echo.
-        
-    - name: Final health check
-      shell: cmd
-      run: |
-        echo Final tekshiruv...
-        if exist "package.json" (
-          echo Jarayonlar ro'yxati:
-          wmic process where "name='node.exe'" get processid,commandline 2>nul | findstr /i "npm"
-          echo.
-          echo Ochiq portlar:
-          netstat -an | findstr "LISTENING" | findstr ":3777 :3000 :8080"
-        )
-        
-    - name: Send deployment success notification
+    - name: Send success notification
       if: success()
       shell: cmd
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=✅ DEPLOYMENT SUCCESS%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ACommit: ${{ github.sha }}%%0A%%0AALL STEPS COMPLETED:%%0A✓ Git info%%0A✓ Project check%%0A✓ npm install --force%%0A✓ Dependencies check%%0A✓ Backup created%%0A✓ npm run build%%0A✓ npm run start%%0A%%0AStatus: SUCCESS ✅%%0ATime: %date% %time%"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=✅ DEPLOYMENT SUCCESS%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0A%%0ABarcha qadamlar muvaffaqiyatli tugadi!%%0AServer: http://localhost:3777%%0ATime: %date% %time%"
         
     - name: Send failure notification
       if: failure()
       shell: cmd
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=❌ DEPLOYMENT FAILED%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ACommit: ${{ github.sha }}%%0A%%0AStatus: FAILED ❌%%0ATime: %date% %time%"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=6135147194" -d "text=❌ DEPLOYMENT FAILED%%0ARepository: ${{ github.repository }}%%0AAuthor: ${{ github.actor }}%%0ATime: %date% %time%"
