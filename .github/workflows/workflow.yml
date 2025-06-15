@@ -1,4 +1,4 @@
-name: Final Simple Telegram
+name: Working Telegram
 
 on: [push]
 
@@ -7,8 +7,7 @@ jobs:
     runs-on: self-hosted
     
     steps:
-    - name: Send push notification
+    - name: Send Telegram notification
+      shell: cmd
       run: |
-        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-          -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
-          -d "text=🚀 GitHub Push Alert!%0A%0A📁 Repo: ${{ github.repository }}%0A👤 Author: ${{ github.actor }}%0A⏰ Time: $(date)%0A%0A✅ Push completed successfully!"
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" -d "text=GitHub Push Alert! Repository: ${{ github.repository }}, Author: ${{ github.actor }}, Status: Success"
