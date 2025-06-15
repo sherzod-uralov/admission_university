@@ -7,7 +7,7 @@ const intlMiddleware = createMiddleware({
   locales,
   localeDetection: false,
 });
-
+//asdasd
 export default function middleware(req: NextRequest) {
   const lang = req.cookies.get("lang")?.value || "uz";
   const url = req.nextUrl.clone();
