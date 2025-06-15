@@ -1,45 +1,14 @@
-name: Check Bot Updates
+name: Final Simple Telegram
 
 on: [push]
 
 jobs:
-  check-updates:
+  notify:
     runs-on: self-hosted
     
     steps:
-    - name: Check what bot sees
-      shell: powershell
+    - name: Send push notification
       run: |
-        $token = "${{ secrets.TELEGRAM_BOT_TOKEN }}"
-        $url = "https://api.telegram.org/bot$token/getUpdates"
-        
-        Write-Host "🔍 Checking bot updates..."
-        Write-Host "URL: $url"
-        
-        try {
-            $updates = Invoke-RestMethod -Uri $url -Method Get
-            Write-Host "✅ API call successful"
-            Write-Host "Updates result count: $($updates.result.Count)"
-            
-            if ($updates.result.Count -eq 0) {
-                Write-Host "⚠️ No updates found!"
-                Write-Host "Please send /start to your bot in Telegram first!"
-            } else {
-                Write-Host "📱 Found $($updates.result.Count) updates"
-                
-                # Har bir update'ni ko'rsatish
-                for ($i = 0; $i -lt [Math]::Min(3, $updates.result.Count); $i++) {
-                    $update = $updates.result[$i]
-                    Write-Host "Update $($i+1):"
-                    Write-Host "  Chat ID: $($update.message.chat.id)"
-                    Write-Host "  From: $($update.message.from.first_name)"
-                    Write-Host "  Text: $($update.message.text)"
-                    Write-Host "  Date: $($update.message.date)"
-                }
-            }
-        }
-        catch {
-            Write-Host "❌ API call failed!"
-            Write-Host "Error: $($_.Exception.Message)"
-            Write-Host "Response: $($_.Exception.Response)"
-        }
+        curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+          -d "text=🚀 GitHub Push Alert!%0A%0A📁 Repo: ${{ github.repository }}%0A👤 Author: ${{ github.actor }}%0A⏰ Time: $(date)%0A%0A✅ Push completed successfully!"
